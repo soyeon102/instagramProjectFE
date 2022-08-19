@@ -1,12 +1,12 @@
 import Container from 'react-bootstrap/Container';
 import styled from 'styled-components';
 
-const Layout = ({ children }) => {
+const FeedLayout = ({ children }) => {
   return <MyContainer>{children}</MyContainer>;
 };
 
-export default Layout;
+export default FeedLayout;
 
 const MyContainer = styled(Container)`
-  max-width: 975px;
+  max-width: 820px;
 `;
