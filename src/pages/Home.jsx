@@ -1,7 +1,16 @@
-import { ReactComponent as IconMsg } from '../assets/icon/icon-message.svg';
+import Layout from '../Layout/Layout';
+import Nav from '../components/Nav';
+import MainFeed from '../components/MainFeed';
 
 const Home = () => {
-  return <div>깃 테스트!</div>;
+  return (
+    <>
+      <Nav />
+      <Layout>
+        <MainFeed />
+      </Layout>
+    </>
+  );
 };
 
 export default Home;
