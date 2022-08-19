@@ -1,9 +1,33 @@
+import { useState } from 'react';
 import styled from 'styled-components';
+import { ReactComponent as IconSearch } from '../assets/icon/icon-search.svg';
+import icons from '../assets/img/icons.png';
+import { colors } from '../theme/theme';
 
 const SearchBox = () => {
+  const [isFocus, setIsFocus] = useState(false);
   return (
-    <SearchContainer>
-      <div></div>
+    <SearchContainer
+      onClick={() => setIsFocus(true)}
+      onBlur={(e) => {
+        if (e.target.id === 'button') {
+          e.cancelBubble = true;
+          return false; // return needs to be last
+        }
+        setIsFocus(false);
+      }}
+    >
+      <SearchInput placeholder={isFocus ? '검색' : ''} />
+      {isFocus ? (
+        <IconClose />
+      ) : (
+        <SearchWrap>
+          <IconContainer>
+            <IconSearch />
+          </IconContainer>
+          <SearchText>검색</SearchText>
+        </SearchWrap>
+      )}
     </SearchContainer>
   );
 };
@@ -11,9 +35,55 @@ const SearchBox = () => {
 export default SearchBox;
 
 const SearchContainer = styled.div`
-  div {
-    width: 200px;
-    height: 30px;
-    border: 1px solid red;
+  position: relative;
+  display: flex;
+`;
+
+const SearchWrap = styled.div`
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 16px;
+  transform: translateY(50%);
+  display: flex;
+  align-items: center;
+`;
+
+const IconContainer = styled.div`
+  margin-right: 12px;
+`;
+
+const SearchText = styled.div`
+  color: ${colors.text};
+`;
+
+const SearchInput = styled.input`
+  width: 100%;
+  border-radius: 8px;
+  background: #efefef;
+  display: inline-block;
+  padding: 0 16px;
+  height: 36px;
+  border: none;
+  outline: none;
+
+  &::placeholder {
+    color: ${colors.text};
   }
+`;
+
+const CloseButton = styled.button``;
+
+const IconClose = styled.div`
+  position: absolute;
+  top: 0;
+  right: 16px;
+  transform: translate(50%, 50%);
+  width: 20px;
+  height: 20px;
+  background-image: url(${icons});
+  background-repeat: no-repeat;
+  background-size: 440px 411px;
+  background-position: -381px -97px;
+  cursor: pointer;
 `;
