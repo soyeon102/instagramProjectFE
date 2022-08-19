@@ -1,4 +1,4 @@
-import Layout from '../Layout/Layout';
+import FeedLayout from '../Layout/FeedLayout';
 import Nav from '../components/Nav';
 import MainFeed from '../components/MainFeed';
 
@@ -6,9 +6,9 @@ const Home = () => {
   return (
     <>
       <Nav />
-      <Layout>
+      <FeedLayout>
         <MainFeed />
-      </Layout>
+      </FeedLayout>
     </>
   );
 };
