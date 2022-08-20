@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-
 import ImgSlide from './ImgSlide';
 import CardContents from './CardContents';
 

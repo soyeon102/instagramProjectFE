@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import Modal from '../components/Modal';
+import CardDetail from '../components/CardDetail';
 import { ReactComponent as IconMore } from '../assets/icon/icon-more.svg';
 import { ReactComponent as IconEmptyHeart } from '../assets/icon/icon-empty-heart.svg';
 import { ReactComponent as IconHeart } from '../assets/icon/icon-heart.svg';
@@ -10,6 +12,17 @@ import { colors } from '../theme/theme';
 
 const MainCard = () => {
   const [isLike, setIsLike] = useState(false);
+  const [isCreate, setIsCreate] = useState(false);
+
+  const handleAddPost = () => {
+    setIsCreate(true);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const handleModalClose = () => {
+    setIsCreate(false);
+    document.body.style.overflow = 'unset';
+  };
 
   return (
     <CardContainer>
@@ -46,10 +59,17 @@ const MainCard = () => {
           <Content>
             <span>username</span> 끝내줬던 여름휴가🌊
           </Content>
-          <Comment>댓글 4개 모두보기</Comment>
+          <Comment onClick={handleAddPost}>댓글 4개 모두보기</Comment>
           <UploadTime>1일 전</UploadTime>
         </Contents>
       </CardFooter>
+
+      {/* 상세 모달 */}
+      {isCreate && (
+        <Modal modalClose={handleModalClose}>
+          <CardDetail />
+        </Modal>
+      )}
     </CardContainer>
   );
 };
