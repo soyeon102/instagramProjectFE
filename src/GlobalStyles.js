@@ -5,6 +5,7 @@ const GlobalStyles = createGlobalStyle`
   ${reset}
   body {
     font-size: 14px;
+    line-height: 18px;
   }
 `;
 

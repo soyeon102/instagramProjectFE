@@ -12,9 +12,11 @@ const Home = () => {
       <FeedLayout>
         <MainFeed />
       </FeedLayout>
-      <Modal>
+
+      {/* 상세 모달 */}
+      {/* <Modal>
         <CardDetail />
-      </Modal>
+      </Modal> */}
     </>
   );
 };

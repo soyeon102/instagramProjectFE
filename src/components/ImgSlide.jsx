@@ -8,15 +8,16 @@ export default ImgSlide;
 
 const Container = styled.div`
   max-height: 769px;
-  max-width: 571.2px;
+  width: 572px;
+  min-width: 500px;
   aspect-ratio: 571.2 / 769;
-  flex-basis: 571.2px;
+  /* flex-basis: 572px; */
 
   background: #aaaaaa;
 
-  flex-grow: 1;
+  /* flex-grow: 1; */
   justify-content: center;
-  min-height: 450px;
+  /* min-height: 450px; */
   overflow: hidden;
-  flex-shrink: 1;
+  /* flex-shrink: 1; */
 `;
