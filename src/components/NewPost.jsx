@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/alt-text */
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
 import { ReactComponent as IconBack } from '../assets/icon/icon-back.svg';
 import { ReactComponent as IconMedia } from '../assets/icon/icon-media.svg';
@@ -5,6 +8,42 @@ import defaultImg from '../assets/img/img-profile.jpg';
 import { colors } from '../theme/theme';
 
 const NewPost = () => {
+  const [files, setFiles] = useState([]);
+
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: {
+      'image/*': [],
+    },
+    onDrop: (acceptedFiles) => {
+      setFiles(
+        acceptedFiles.map((file) =>
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+          })
+        )
+      );
+    },
+  });
+
+  const thumbs = files.map((file) => (
+    <div key={file.name}>
+      <div>
+        <img
+          src={file.preview}
+          onLoad={() => {
+            URL.revokeObjectURL(file.preview);
+          }}
+        />
+      </div>
+    </div>
+  ));
+
+  useEffect(() => {
+    return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
+  }, []);
+
+  console.log();
+
   return (
     <StNewPost>
       <StNewPostHeader>
@@ -20,7 +59,23 @@ const NewPost = () => {
           <StImageTab>
             <IconMedia />
             <p>사진과 동영상을 여기에 끌어다 놓으세요</p>
-            <StButton>컴퓨터에서 선택</StButton>
+            <StButton {...getRootProps({ className: 'dropzone' })}>
+              <input {...getInputProps()} />
+              컴퓨터에서 선택
+            </StButton>
+            {/* <ul>
+              <li
+                style={{ width: '200px', height: '200px', background: 'black' }}
+              >
+                {files.length !== 0 && (
+                  <img
+                    style={{ width: '100%', objectFit: 'cover' }}
+                    src={files.map((file) => file.preview)}
+                    alt='업로드 이미지'
+                  />
+                )}
+              </li>
+            </ul> */}
           </StImageTab>
         </StNewPostBodyLeft>
 

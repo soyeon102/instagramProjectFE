@@ -1,11 +1,28 @@
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as Icon } from '../assets/icon/icon-modal-close.svg';
 
-const Modal = ({ children }) => {
+const Modal = ({ children, modalClose }) => {
+  // 스크롤 이벤트 발생
+  // useEffect(() => {
+  //   document.body.style.cssText = `
+  //     position: fixed;
+  //     top: -${window.scrollY}px;
+  //     overflow-y: scroll;
+  //     width: 100%;`;
+  //   return () => {
+  //     const scrollY = document.body.style.top;
+  //     document.body.style.cssText = '';
+  //     window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+  //   };
+  // }, []);
+
   return (
-    <ModalContainer>
-      <ModalContent>{children}</ModalContent>
-      <IconClose />
+    <ModalContainer onClick={modalClose}>
+      <ModalContent onClick={(e) => e.stopPropagation()}>
+        {children}
+      </ModalContent>
+      <IconClose onClick={modalClose} />
     </ModalContainer>
   );
 };

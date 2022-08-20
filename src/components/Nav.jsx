@@ -9,7 +9,7 @@ import SearchBox from './SearchBox';
 import { colors } from '../theme/theme';
 import { useNavigate } from 'react-router-dom';
 
-const Nav = () => {
+const Nav = ({ onClickAddPost }) => {
   const navigate = useNavigate();
 
   return (
@@ -27,7 +27,7 @@ const Nav = () => {
               <IconHome />
             </IconContainer>
             <IconContainer>
-              <IconAdd />
+              <IconAdd onClick={onClickAddPost} />
             </IconContainer>
             <IconContainer onClick={() => navigate('/myfeed')}>
               <img src={defaultImg} alt='프로필사진' />
