@@ -1,40 +1,52 @@
 import styled from 'styled-components';
+import defaultImg from '../assets/img/img-profile.jpg';
+import { colors } from '../theme/theme';
 
 const RecommendMember = () => {
   return (
     <StRecommendMember>
       <StMyNameBox>
         <StMyName>
-          <StCircle />
-          <h3 style={{ fontWeight: '550' }}>baeji</h3>
+          <MyProfileContainer>
+            <img src={defaultImg} alt='프로필 사진' />
+          </MyProfileContainer>
+          <StText black fwNormal>
+            baeji
+          </StText>
         </StMyName>
-        <p style={{ color: '#0095f6', fontWeight: 'bold' }}>전환</p>
+        <StText>전환</StText>
       </StMyNameBox>
 
-      <p style={{ color: '#8e8e8e', fontWeight: 'bold' }}>회원님을 위한 추천</p>
+      <StRecommendText>회원님을 위한 추천</StRecommendText>
 
       <StRecommendBox>
         <StRecommend>
-          <StRecommendCircle />
-          <p style={{ fontWeight: 'bold' }}>soyeon</p>
+          <ProfileContainer>
+            <img src={defaultImg} alt='프로필 사진' />
+          </ProfileContainer>
+          <StText black>soyeon</StText>
         </StRecommend>
-        <p style={{ color: '#0095f6', fontWeight: 'bold' }}>팔로우</p>
+        <StText>팔로우</StText>
       </StRecommendBox>
 
       <StRecommendBox>
         <StRecommend>
-          <StRecommendCircle />
-          <p style={{ fontWeight: 'bold' }}>junsu</p>
+          <ProfileContainer>
+            <img src={defaultImg} alt='프로필 사진' />
+          </ProfileContainer>
+          <StText black>junsu</StText>
         </StRecommend>
-        <p style={{ color: '#0095f6', fontWeight: 'bold' }}>팔로우</p>
+        <StText>팔로우</StText>
       </StRecommendBox>
 
       <StRecommendBox>
         <StRecommend>
-          <StRecommendCircle />
-          <p style={{ fontWeight: 'bold' }}>yeongwoo</p>
+          <ProfileContainer>
+            <img src={defaultImg} alt='프로필 사진' />
+          </ProfileContainer>
+          <StText black>yeongwoo</StText>
         </StRecommend>
-        <p style={{ color: '#0095f6', fontWeight: 'bold' }}>팔로우</p>
+        <StText>팔로우</StText>
       </StRecommendBox>
     </StRecommendMember>
   );
@@ -43,10 +55,7 @@ const RecommendMember = () => {
 export default RecommendMember;
 
 const StRecommendMember = styled.div`
-  background-color: #fafafa;
-  width: 400px;
-  margin: 0 auto;
-  padding: 20px;
+  flex: 1;
 `;
 const StMyNameBox = styled.div`
   margin-bottom: 20px;
@@ -58,13 +67,7 @@ const StMyNameBox = styled.div`
 const StMyName = styled.div`
   display: flex;
 `;
-const StCircle = styled.div`
-  width: 60px;
-  height: 60px;
-  border: 1px dashed black;
-  border-radius: 50%;
-  margin-right: 10px;
-`;
+
 const StRecommendBox = styled.div`
   margin-top: 20px;
   display: flex;
@@ -77,10 +80,37 @@ const StRecommend = styled.div`
   line-height: 30px;
   text-align: center;
 `;
-const StRecommendCircle = styled.div`
-  width: 35px;
-  height: 35px;
+
+const StText = styled.div`
+  color: ${(props) => (props.black ? colors.textBlack : colors.primary)};
+  font-weight: ${(props) => (props.fwNormal ? 'normal' : 'bold')};
+  font-size: ${(props) => (props.black ? '14px' : '12px')};
+  cursor: pointer;
+`;
+
+const MyProfileContainer = styled.div`
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
-  border: 1px dashed black;
+  overflow: hidden;
   margin-right: 10px;
+  img {
+    width: 100%;
+  }
+`;
+
+const ProfileContainer = styled.div`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 10px;
+  img {
+    width: 100%;
+  }
+`;
+
+const StRecommendText = styled.div`
+  color: ${colors.text};
+  font-size: 14px;
+  font-weight: bold;
 `;

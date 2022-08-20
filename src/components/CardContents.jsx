@@ -7,7 +7,7 @@ import { ReactComponent as IconHeart } from '../assets/icon/icon-heart.svg';
 import { ReactComponent as IconEmptyHeart } from '../assets/icon/icon-empty-heart.svg';
 import { ReactComponent as IconEmoji } from '../assets/icon/icon-emoji.svg';
 import { colors } from '../theme/theme';
-import DefaultImg from '../assets/img/img-profile.jpg';
+import defaultImg from '../assets/img/img-profile.jpg';
 import CommentList from './CommentList';
 
 const CardContents = () => {
@@ -18,7 +18,7 @@ const CardContents = () => {
       <BoardHeader>
         <UserProfile>
           <UserImg>
-            <img src={DefaultImg} alt='프로필사진' style={{ width: '100%' }} />
+            <img src={defaultImg} alt='프로필사진' style={{ width: '100%' }} />
           </UserImg>
           <UserName>username</UserName>
         </UserProfile>
@@ -29,19 +29,20 @@ const CardContents = () => {
 
       <BoardBody>
         <Contents>
-          <UserProfile>
-            <UserImg>
-              <img
-                src={DefaultImg}
-                alt='프로필사진'
-                style={{ width: '100%' }}
-              />
-            </UserImg>
+          <UserImg>
+            <img src={defaultImg} alt='프로필사진' style={{ width: '100%' }} />
+          </UserImg>
+          <UserPost>
             <Content>
-              <span>username</span> 끝내줬던 여름휴가🌊
+              <span>username</span> 끝내줬던 여름휴가🌊여름휴가🌊끝내줬던
+              여름휴가🌊끝내줬던여름휴가🌊끝내줬던여름휴가🌊끝내줬던 여름휴가🌊
+              끝내줬던 여름휴가🌊
             </Content>
-          </UserProfile>
+            <UploadTime>2주</UploadTime>
+          </UserPost>
         </Contents>
+
+        {/* 댓글리스트 */}
         <CommentList />
       </BoardBody>
 
@@ -59,11 +60,12 @@ const CardContents = () => {
         </Icons>
         <ContentsInfo>
           <LikeNum>좋아요 100개</LikeNum>
-          <UploadTime>1일 전</UploadTime>
+          <UploadTime>8월 5</UploadTime>
         </ContentsInfo>
         <UploadComment>
-          <input type='text' />
           <Emoji />
+          <input type='tex' placeholder='댓글 달기'></input>
+          <button>게시</button>
         </UploadComment>
       </BoardFooter>
     </BoardContainer>
@@ -73,13 +75,16 @@ const CardContents = () => {
 export default CardContents;
 
 const BoardContainer = styled.div`
-  align-items: stretch;
-  border: 0;
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   flex-shrink: 2;
+  flex: 1 1 auto;
+  min-height: 571px;
+  min-width: 0;
+
+  align-self: stretch;
+
   font-size: 100%;
   margin: 0;
   max-width: 500px;
@@ -94,14 +99,14 @@ const BoardHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 12px;
+  padding: 8px 16px;
   height: 56px;
+  border-bottom: 1px solid ${colors.border};
 `;
 
 const UserProfile = styled.div`
   display: flex;
   align-items: center;
-  padding: 0 12px;
 `;
 
 const UserImg = styled.div`
@@ -115,14 +120,43 @@ const UserName = styled.div`
   font-weight: bold;
 `;
 
-const BoardBody = styled.div``;
-
 const IconContainer = styled.div`
   width: 40px;
   height: 40px;
   padding: 8px;
   margin-top: 6px;
   cursor: pointer;
+`;
+
+const BoardBody = styled.div`
+  max-height: 541px;
+  overflow-y: scroll;
+  padding: 16px;
+
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const Contents = styled.div`
+  display: flex;
+  align-items: flex-start;
+`;
+
+const UserPost = styled.div`
+  margin-left: 12px;
+  flex: 1;
+`;
+
+const Content = styled.div`
+  margin-bottom: 6px;
+
+  span {
+    font-weight: bold;
+  }
 `;
 
 const Icons = styled.div`
@@ -132,14 +166,6 @@ const Icons = styled.div`
   margin-bottom: 6px;
 `;
 
-const BoardFooter = styled.div``;
-
-const Contents = styled.div``;
-
-const Content = styled.div`
-  margin-left: 12px;
-`;
-
 const ContentsInfo = styled.div`
   padding: 0 16px;
 
@@ -147,6 +173,8 @@ const ContentsInfo = styled.div`
     margin-top: 8px;
   }
 `;
+
+const BoardFooter = styled.div``;
 
 const LikeNum = styled.div`
   color: ${colors.textBlack};
@@ -173,23 +201,31 @@ const UploadTime = styled.div`
 `;
 
 const UploadComment = styled.div`
-  position: relative;
-  height: 53px;
+  display: flex;
+  align-items: center;
+  min-height: 53px;
   margin-top: 12px;
+  padding: 6px 16px;
+  border-top: 1px solid ${colors.border};
 
   input {
-    border: none;
-    border-top: 1px solid ${colors.border};
     width: 100%;
-    height: 100%;
-    padding: 6px 26px 6px 32px;
+    display: block;
+    border: none;
+    outline: none;
+    min-height: 20px;
+  }
+
+  button {
+    width: 50px;
+    color: ${colors.primary};
+    font-weight: bold;
+    border: none;
+    background: none;
     outline: none;
   }
 `;
 
 const Emoji = styled(IconEmoji)`
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: translateY(60%);
+  margin-right: 16px;
 `;

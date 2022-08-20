@@ -1,25 +1,18 @@
 import styled from 'styled-components';
 
-const MyfeedCard = () => {
+const MyfeedCard = ({ feed }) => {
   return (
     <StCardBox>
-      <StCard />
-      <StCard />
-      <StCard />
+      <StCard>{feed.img}</StCard>
     </StCardBox>
   );
 };
 
 export default MyfeedCard;
 
-const StCardBox = styled.div`
-  width: 880px;
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-between;
-`;
+const StCardBox = styled.div``;
 const StCard = styled.div`
-  border: 1px dashed black;
-  width: 270px;
+  background-color: #efefef;
+  width: 100%;
   height: 270px;
 `;

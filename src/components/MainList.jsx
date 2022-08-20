@@ -5,6 +5,8 @@ const MainList = () => {
   return (
     <ListContainer>
       <MainCard />
+      <MainCard />
+      <MainCard />
     </ListContainer>
   );
 };

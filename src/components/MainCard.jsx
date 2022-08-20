@@ -4,7 +4,7 @@ import { ReactComponent as IconEmptyHeart } from '../assets/icon/icon-empty-hear
 import { ReactComponent as IconHeart } from '../assets/icon/icon-heart.svg';
 import { ReactComponent as IconComment } from '../assets/icon/icon-comment.svg';
 import { ReactComponent as IconShare } from '../assets/icon/icon-share.svg';
-import DefaultImg from '../assets/img/img-profile.jpg';
+import defaultImg from '../assets/img/img-profile.jpg';
 import styled from 'styled-components';
 import { colors } from '../theme/theme';
 
@@ -16,7 +16,7 @@ const MainCard = () => {
       <CardHeader>
         <UserProfile>
           <ProfileImg>
-            <img src={DefaultImg} alt='프로필사진' style={{ width: '100%' }} />
+            <img src={defaultImg} alt='프로필사진' />
           </ProfileImg>
           <ProfileName>username</ProfileName>
         </UserProfile>
@@ -80,6 +80,12 @@ const UserProfile = styled.div`
 const ProfileImg = styled.div`
   width: 32px;
   height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+  }
 `;
 const ProfileName = styled.div`
   margin-left: 10px;
