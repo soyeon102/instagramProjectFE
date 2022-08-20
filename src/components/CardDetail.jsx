@@ -15,7 +15,6 @@ const CardDetail = () => {
 export default CardDetail;
 
 const DetailContainer = styled.div`
-  border: 3px solid blue;
   display: flex;
   align-items: center;
   justify-content: center;
