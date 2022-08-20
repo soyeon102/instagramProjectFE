@@ -1,17 +1,24 @@
 import styled from 'styled-components';
+import { ReactComponent as IconBack } from '../assets/icon/icon-back.svg';
+import { ReactComponent as IconMedia } from '../assets/icon/icon-media.svg';
+import defaultImg from '../assets/img/img-profile.jpg';
+import { colors } from '../theme/theme';
 
 const NewPost = () => {
   return (
     <StNewPost>
       <StNewPostHeader>
-        <p>!!!</p>
-        <p style={{ fontWeight: 'bold' }}>새 게시물 만들기</p>
-        <p style={{ color: '#0095f6', fontWeight: 'bold' }}>공유하기</p>
+        <IconBack />
+        <StText>새 게시물 만들기</StText>
+        <StText primary fz='14px'>
+          공유하기
+        </StText>
       </StNewPostHeader>
 
       <StNewPostBody>
         <StNewPostBodyLeft>
           <StImageTab>
+            <IconMedia />
             <p>사진과 동영상을 여기에 끌어다 놓으세요</p>
             <StButton>컴퓨터에서 선택</StButton>
           </StImageTab>
@@ -19,13 +26,12 @@ const NewPost = () => {
 
         <StNewPostBodyRight>
           <StNewPostName>
-            <StCircle />
-            <p style={{ fontWeight: 'bold' }}>baeji</p>
+            <UserProfile>
+              <img src={defaultImg} alt='유저 프로필'></img>
+            </UserProfile>
+            <StText>baeji</StText>
           </StNewPostName>
-          <StTextarea
-            placeholder='문구 입력...'
-            style={{ border: 'none' }}
-          ></StTextarea>
+          <StTextarea placeholder='문구 입력...'></StTextarea>
         </StNewPostBodyRight>
       </StNewPostBody>
     </StNewPost>
@@ -35,41 +41,57 @@ const NewPost = () => {
 export default NewPost;
 
 const StNewPost = styled.div`
-  width: 1000px;
-  height: 620px;
-  margin: 0 auto;
+  width: 938px;
   border: 1px solid black;
   border-radius: 10px;
+  background-color: white;
 `;
+
 const StNewPostHeader = styled.div`
-  border-bottom: 1px solid #d1d1d1;
-  height: 40px;
-  padding: 5px;
-  display: flex;
-  justify-content: space-between;
-  line-height: 30px;
-  text-align: center;
-`;
-const StNewPostBody = styled.div`
-  display: flex;
-`;
-const StNewPostBodyLeft = styled.div`
-  width: 700px;
-  height: 600px;
-  border-right: 1px solid #cbcbcb;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid ${colors.border};
+  padding: 8px 16px;
+`;
+
+const StNewPostBody = styled.div`
+  height: 598px;
+  display: flex;
+`;
+
+const StNewPostBodyLeft = styled.div`
+  width: 598px;
+  height: 100%;
+  border-right: 1px solid ${colors.border};
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 const StImageTab = styled.div`
-  margin: 0 auto;
-  font-size: 25px;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  p {
+    font-size: 22px;
+    color: ${colors.textBlack};
+    font-weight: lighter;
+  }
+
+  * + * {
+    margin-top: 20px;
+  }
 `;
-const StButton = styled.div`
+
+const StButton = styled.button`
   color: white;
-  background-color: #0095f6;
+  background-color: ${colors.primary};
+  border: none;
+  outline: none;
   border-radius: 3px;
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: bold;
   width: 120px;
   margin: 20px auto;
   padding: 5px;
@@ -78,27 +100,38 @@ const StButton = styled.div`
 `;
 
 const StNewPostBodyRight = styled.div`
-  width: 300px;
+  width: 340px;
+  height: 100%;
+  padding: 15px;
 `;
 
 const StNewPostName = styled.div`
-  padding: 15px;
   display: flex;
-  line-height: 25px;
-  text-align: center;
-`;
-
-const StCircle = styled.div`
-  width: 25px;
-  height: 25px;
-  border: 1px dashed black;
-  border-radius: 50%;
-  margin-right: 10px;
+  align-items: center;
 `;
 
 const StTextarea = styled.textarea`
-  width: 270px;
-  height: 210px;
-  margin-right: 20px;
-  margin-left: 12px;
+  width: 100%;
+  height: 90%;
+  display: inline-block;
+  border: none;
+  outline: none;
+  padding-top: 20px;
+  resize: none;
+`;
+
+const UserProfile = styled.div`
+  width: 28px;
+  height: 28px;
+  margin-right: 8px;
+
+  img {
+    width: 100%;
+  }
+`;
+
+const StText = styled.p`
+  color: ${(props) => (props.primary ? colors.primary : colors.black)};
+  font-size: ${(props) => props.fz};
+  font-weight: bold;
 `;

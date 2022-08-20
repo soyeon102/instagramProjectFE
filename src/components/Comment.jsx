@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import DefaultImg from '../assets/img/img-profile.jpg';
+import defaultImg from '../assets/img/img-profile.jpg';
 import { colors } from '../theme/theme';
 
 const Comment = ({ comments }) => {
@@ -9,7 +9,7 @@ const Comment = ({ comments }) => {
     <CommentContainer>
       <User>
         <UserProfile>
-          <img src={DefaultImg} alt='프로필사진' style={{ width: '100%' }} />
+          <img src={defaultImg} alt='프로필사진' style={{ width: '100%' }} />
         </UserProfile>
         <Contents>
           <UserComment>

@@ -1,27 +1,29 @@
 import styled from 'styled-components';
+import defaultImg from '../assets/img/img-profile.jpg';
+import { colors } from '../theme/theme';
 
 const MyfeedProfile = () => {
   return (
     <StMyfeedProfile>
-      <StProfilePicture>
-        <StCircle />
-      </StProfilePicture>
+      <ProfileContainer>
+        <StProfilePicture>
+          <img src={defaultImg} />
+        </StProfilePicture>
+      </ProfileContainer>
 
       <StProfileBox>
-        <StName>
-          <h1>baeji</h1>
-        </StName>
+        <StName>baeji</StName>
         <StProfile>
           <StProfileText>
-            <p>게시물 10</p>
+            게시물<span>10</span>
           </StProfileText>
 
           <StProfileText>
-            <p>팔로워 100</p>
+            팔로워<span>100</span>
           </StProfileText>
 
           <StProfileText>
-            <p>팔로우 100</p>
+            팔로우<span>100</span>
           </StProfileText>
         </StProfile>
       </StProfileBox>
@@ -32,35 +34,53 @@ const MyfeedProfile = () => {
 export default MyfeedProfile;
 
 const StMyfeedProfile = styled.div`
-  background-color: #fafafa;
-  width: 880px;
-  margin: 0 auto;
-  padding: 30px;
+  margin-top: 94px;
+  margin-bottom: 44px;
   display: flex;
 `;
-const StProfilePicture = styled.div`
-  margin-left: 50px;
+
+const ProfileContainer = styled.div`
+  width: 295px;
+  margin-right: 30px;
+  display: flex;
+  justify-content: center;
 `;
-const StCircle = styled.div`
+
+const StProfilePicture = styled.div`
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  border: 1px dashed black;
+  overflow: hidden;
+  img {
+    width: 100%;
+  }
 `;
+
 const StProfileBox = styled.div`
-  margin-left: 50px;
-  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 `;
+
 const StName = styled.div`
-  font-size: 25px;
+  font-size: 28px;
+  font-weight: lighter;
+  color: ${colors.textBlack};
+  margin-bottom: 20px;
 `;
+
 const StProfile = styled.div`
   margin-top: 20px;
   display: flex;
 `;
 const StProfileText = styled.div`
-  margin-right: 30px;
+  font-size: 16px;
+
+  span {
+    font-weight: bold;
+    margin-left: 2px;
+  }
+  & + & {
+    margin-left: 30px;
+  }
 `;

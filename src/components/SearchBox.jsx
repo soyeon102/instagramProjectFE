@@ -8,16 +8,16 @@ const SearchBox = () => {
   const [isFocus, setIsFocus] = useState(false);
   return (
     <SearchContainer
-      onClick={() => setIsFocus(true)}
-      onBlur={(e) => {
-        if (e.target.id === 'button') {
-          e.cancelBubble = true;
-          return false; // return needs to be last
-        }
-        setIsFocus(false);
+      onClick={() => {
+        setIsFocus(true);
       }}
     >
-      <SearchInput placeholder={isFocus ? '검색' : ''} />
+      <SearchInput
+        onBlur={(e) => {
+          setIsFocus(false);
+        }}
+        placeholder={isFocus ? '검색' : ''}
+      />
       {isFocus ? (
         <IconClose />
       ) : (
@@ -37,6 +37,7 @@ export default SearchBox;
 const SearchContainer = styled.div`
   position: relative;
   display: flex;
+  height: 36px;
 `;
 
 const SearchWrap = styled.div`
@@ -63,7 +64,7 @@ const SearchInput = styled.input`
   background: #efefef;
   display: inline-block;
   padding: 0 16px;
-  height: 36px;
+  /* height: 100%; */
   border: none;
   outline: none;
 

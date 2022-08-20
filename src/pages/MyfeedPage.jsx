@@ -1,15 +1,16 @@
 import MyfeedProfile from '../components/MyfeedProfile';
 import MyfeedList from '../components/MyfeedList';
-import RecommendMember from '../components/RecommendMember';
-import NewPost from '../components/NewPost';
+import Layout from '../Layout/Layout';
+import Nav from '../components/Nav';
 
 const MyfeedPage = () => {
   return (
     <>
-      <MyfeedProfile />;
-      <MyfeedList />;
-      <RecommendMember />
-      <NewPost />
+      <Nav />
+      <Layout>
+        <MyfeedProfile />
+        <MyfeedList />;{/* <NewPost /> */}
+      </Layout>
     </>
   );
 };
