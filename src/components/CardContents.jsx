@@ -7,7 +7,7 @@ import { ReactComponent as IconHeart } from '../assets/icon/icon-heart.svg';
 import { ReactComponent as IconEmptyHeart } from '../assets/icon/icon-empty-heart.svg';
 import { ReactComponent as IconEmoji } from '../assets/icon/icon-emoji.svg';
 import { colors } from '../theme/theme';
-import DefaultImg from '../assets/img/img-profile.jpg';
+import defaultImg from '../assets/img/img-profile.jpg';
 import CommentList from './CommentList';
 
 const CardContents = () => {
@@ -18,7 +18,7 @@ const CardContents = () => {
       <BoardHeader>
         <UserProfile>
           <UserImg>
-            <img src={DefaultImg} alt='프로필사진' style={{ width: '100%' }} />
+            <img src={defaultImg} alt='프로필사진' style={{ width: '100%' }} />
           </UserImg>
           <UserName>username</UserName>
         </UserProfile>
@@ -30,7 +30,7 @@ const CardContents = () => {
       <BoardBody>
         <Contents>
           <UserImg>
-            <img src={DefaultImg} alt='프로필사진' style={{ width: '100%' }} />
+            <img src={defaultImg} alt='프로필사진' style={{ width: '100%' }} />
           </UserImg>
           <UserPost>
             <Content>

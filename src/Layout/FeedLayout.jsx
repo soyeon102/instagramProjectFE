@@ -8,5 +8,5 @@ const FeedLayout = ({ children }) => {
 export default FeedLayout;
 
 const MyContainer = styled(Container)`
-  max-width: 820px;
+  max-width: 844px;
 `;
