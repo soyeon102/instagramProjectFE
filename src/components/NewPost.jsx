@@ -1,16 +1,21 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useCallback, useEffect, useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
 import { ReactComponent as IconBack } from '../assets/icon/icon-back.svg';
 import { ReactComponent as IconMedia } from '../assets/icon/icon-media.svg';
 import defaultImg from '../assets/img/img-profile.jpg';
 import { colors } from '../theme/theme';
+import 'swiper/css';
+import 'swiper/css/navigation';
 
 const NewPost = () => {
   const [files, setFiles] = useState([]);
 
   const { getRootProps, getInputProps } = useDropzone({
+    maxFiles: 6,
     accept: {
       'image/*': [],
     },
@@ -25,24 +30,24 @@ const NewPost = () => {
     },
   });
 
-  const thumbs = files.map((file) => (
-    <div key={file.name}>
-      <div>
-        <img
-          src={file.preview}
-          onLoad={() => {
-            URL.revokeObjectURL(file.preview);
-          }}
-        />
-      </div>
-    </div>
-  ));
+  // const thumbs = files.map((file) => (
+  //   <div key={file.name}>
+  //     <div>
+  //       <img
+  //         src={file.preview}
+  //         onLoad={() => {
+  //           URL.revokeObjectURL(file.preview);
+  //         }}
+  //       />
+  //     </div>
+  //   </div>
+  // ));
 
   useEffect(() => {
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
   }, []);
 
-  console.log();
+  console.log(files.map((file) => console.log(file)));
 
   return (
     <StNewPost>
@@ -55,27 +60,48 @@ const NewPost = () => {
       </StNewPostHeader>
 
       <StNewPostBody>
-        <StNewPostBodyLeft>
+        <StNewPostBodyLeft {...getRootProps({ className: 'dropzone' })}>
           <StImageTab>
-            <IconMedia />
-            <p>사진과 동영상을 여기에 끌어다 놓으세요</p>
-            <StButton {...getRootProps({ className: 'dropzone' })}>
-              <input {...getInputProps()} />
-              컴퓨터에서 선택
-            </StButton>
-            {/* <ul>
-              <li
-                style={{ width: '200px', height: '200px', background: 'black' }}
-              >
-                {files.length !== 0 && (
-                  <img
-                    style={{ width: '100%', objectFit: 'cover' }}
-                    src={files.map((file) => file.preview)}
-                    alt='업로드 이미지'
-                  />
-                )}
-              </li>
-            </ul> */}
+            {files.length === 0 && (
+              <>
+                <IconMedia />
+                <p>사진과 동영상을 여기에 끌어다 놓으세요</p>
+                <StButton>
+                  <input {...getInputProps()} />
+                  컴퓨터에서 선택
+                </StButton>
+              </>
+            )}
+
+            <>
+              {files.length !== 0 && (
+                <Swiper
+                  style={{ width: '100%', height: '100%', background: 'black' }}
+                >
+                  {files.map((file) => (
+                    <SwiperSlide key={file.path}>
+                      <img
+                        style={{ width: '100%', objectFit: 'cover' }}
+                        src={file.preview}
+                        alt='업로드 이미지'
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+
+                // <ul>
+                //   {files.map((file) => (
+                //     <li key={file.path} style={{width: '200px', height: '200px', background: 'black'}}>
+                //       <img
+                //         style={{ width: '100%', objectFit: 'cover' }}
+                //         src={file.preview}
+                //         alt='업로드 이미지'
+                //       />
+                //     </li>
+                //   ))}
+                // </ul>
+              )}
+            </>
           </StImageTab>
         </StNewPostBodyLeft>
 
@@ -127,6 +153,9 @@ const StImageTab = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  border: 1px solid red;
+  width: 100%;
+  height: 100%;
 
   p {
     font-size: 22px;
