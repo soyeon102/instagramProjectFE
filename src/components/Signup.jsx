@@ -1,9 +1,16 @@
 import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as IconLogo } from '../assets/icon/icon-logo.svg';
 import { colors } from '../theme/theme';
+import { __signupUser } from '../redux/modules/userSlice';
 
 const Signup = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isLoading, error, user } = useSelector((state) => state.user);
+
   const [disabledBtn, setDisabledBtn] = useState(true);
   const [signupVal, setSignupVal] = useState({
     email: '',
@@ -16,6 +23,11 @@ const Signup = () => {
     setSignupVal({ ...signupVal, [e.target.name]: e.target.value });
   };
 
+  const handleSignup = (e) => {
+    e.preventDefault();
+    dispatch(__signupUser(signupVal));
+  };
+
   useEffect(() => {
     if (email !== '' && nickname !== '' && password.length > 5) {
       setDisabledBtn(false);
@@ -26,7 +38,7 @@ const Signup = () => {
 
   return (
     <SignupContainer>
-      <SignupBox>
+      <SignupBox onSubmit={handleSignup}>
         <LogoBox>
           <IconLogo />
         </LogoBox>
@@ -51,11 +63,16 @@ const Signup = () => {
             value={password}
             onChange={handleChange}
           />
-          <SignupButton disabled={disabledBtn} onClick={() => {}}>
+          {error ? <ErrorMsg>{error}</ErrorMsg> : null}
+          <SignupButton type='submit' disabled={disabledBtn}>
             가입
           </SignupButton>
         </InputBox>
       </SignupBox>
+      <LoginBox>
+        이미 계정이 있으신가요?{' '}
+        <span onClick={() => navigate('/login')}>로그인</span>
+      </LoginBox>
     </SignupContainer>
   );
 };
@@ -68,9 +85,10 @@ const SignupContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 `;
 
-const SignupBox = styled.div`
+const SignupBox = styled.form`
   background-color: white;
   width: 350px;
   border: 1px solid ${colors.border};
@@ -78,6 +96,7 @@ const SignupBox = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding-bottom: 36px;
 `;
 
 const InputBox = styled.div`
@@ -113,7 +132,6 @@ const SignupButton = styled.button`
   width: 250px;
   height: 30px;
   margin-top: 40px;
-  margin-bottom: 36px;
 
   &:disabled {
     background-color: #b2dffc;
@@ -138,4 +156,27 @@ const SignupText = styled.div`
   line-height: 20px;
   font-weight: bold;
   color: ${colors.text};
+`;
+
+const ErrorMsg = styled.p`
+  color: red;
+  font-size: 12px;
+`;
+
+const LoginBox = styled.div`
+  background-color: white;
+  width: 350px;
+  padding: 20px;
+  border: 1px solid ${colors.border};
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  span {
+    color: ${colors.primary};
+    margin-left: 4px;
+    font-weight: bold;
+    cursor: pointer;
+  }
 `;

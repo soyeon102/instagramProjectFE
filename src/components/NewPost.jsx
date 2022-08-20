@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useCallback, useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper';
+import { Navigation, Pagination } from 'swiper';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
 import { ReactComponent as IconBack } from '../assets/icon/icon-back.svg';
@@ -10,6 +10,7 @@ import defaultImg from '../assets/img/img-profile.jpg';
 import { colors } from '../theme/theme';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 const NewPost = () => {
   const [files, setFiles] = useState([]);
@@ -17,7 +18,9 @@ const NewPost = () => {
   const { getRootProps, getInputProps } = useDropzone({
     maxFiles: 6,
     accept: {
-      'image/*': [],
+      'image/png': ['.png'],
+      'image/jpeg': ['.jpeg'],
+      'image/jpg': ['.jpg'],
     },
     onDrop: (acceptedFiles) => {
       setFiles(
@@ -47,7 +50,7 @@ const NewPost = () => {
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
   }, []);
 
-  console.log(files.map((file) => console.log(file)));
+  console.log(files);
 
   return (
     <StNewPost>
@@ -60,49 +63,44 @@ const NewPost = () => {
       </StNewPostHeader>
 
       <StNewPostBody>
-        <StNewPostBodyLeft {...getRootProps({ className: 'dropzone' })}>
-          <StImageTab>
-            {files.length === 0 && (
-              <>
-                <IconMedia />
-                <p>사진과 동영상을 여기에 끌어다 놓으세요</p>
-                <StButton>
-                  <input {...getInputProps()} />
-                  컴퓨터에서 선택
-                </StButton>
-              </>
-            )}
+        <StNewPostBodyLeft>
+          {files.length === 0 && (
+            <StImageTab {...getRootProps({ className: 'dropzone' })}>
+              <IconMedia />
+              <p>사진과 동영상을 여기에 끌어다 놓으세요</p>
+              <StButton>
+                {/* <input {...getInputProps()} /> */}
+                컴퓨터에서 선택
+              </StButton>
+            </StImageTab>
+          )}
 
-            <>
-              {files.length !== 0 && (
-                <Swiper
-                  style={{ width: '100%', height: '100%', background: 'black' }}
-                >
-                  {files.map((file) => (
-                    <SwiperSlide key={file.path}>
-                      <img
-                        style={{ width: '100%', objectFit: 'cover' }}
-                        src={file.preview}
-                        alt='업로드 이미지'
-                      />
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-
-                // <ul>
-                //   {files.map((file) => (
-                //     <li key={file.path} style={{width: '200px', height: '200px', background: 'black'}}>
-                //       <img
-                //         style={{ width: '100%', objectFit: 'cover' }}
-                //         src={file.preview}
-                //         alt='업로드 이미지'
-                //       />
-                //     </li>
-                //   ))}
-                // </ul>
-              )}
-            </>
-          </StImageTab>
+          {files.length !== 0 && (
+            <StImageTab>
+              <Swiper
+                navigation={true}
+                pagination={true}
+                modules={[Pagination, Navigation]}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  background: 'black',
+                  position: 'relative',
+                  zIndex: '99',
+                }}
+              >
+                {files.map((file) => (
+                  <SwiperSlide key={file.path}>
+                    <img
+                      style={{ width: '100%', objectFit: 'cover' }}
+                      src={file.preview}
+                      alt='업로드 이미지'
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </StImageTab>
+          )}
         </StNewPostBodyLeft>
 
         <StNewPostBodyRight>
@@ -152,8 +150,8 @@ const StNewPostBodyLeft = styled.div`
 const StImageTab = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
-  border: 1px solid red;
   width: 100%;
   height: 100%;
 

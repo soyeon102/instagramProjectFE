@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import loginImg from '../assets/img/img-login.png';
 import { ReactComponent as IconLogo } from '../assets/icon/icon-logo.svg';
 import { colors } from '../theme/theme';
+import { __loginUser } from '../redux/modules/userSlice';
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [disabledBtn, setDisabledBtn] = useState(true);
   const [loginVal, setLoginVal] = useState({
     email: '',
@@ -16,6 +20,10 @@ const Login = () => {
 
   const handleChange = (e) => {
     setLoginVal({ ...loginVal, [e.target.name]: e.target.value });
+  };
+
+  const handleLogin = () => {
+    dispatch(__loginUser(loginVal));
   };
 
   useEffect(() => {
@@ -49,7 +57,9 @@ const Login = () => {
               value={password}
               onChange={handleChange}
             />
-            <LoginButton disabled={disabledBtn}>로그인</LoginButton>
+            <LoginButton disabled={disabledBtn} onClick={handleLogin}>
+              로그인
+            </LoginButton>
           </LoginBox>
 
           <SignupBox>
