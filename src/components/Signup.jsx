@@ -29,7 +29,7 @@ const Signup = () => {
   };
 
   useEffect(() => {
-    if (email !== '' && nickname !== '' && password.length > 5) {
+    if (email !== '' && nickname !== '' && password.length > 3) {
       setDisabledBtn(false);
     } else {
       setDisabledBtn(true);
