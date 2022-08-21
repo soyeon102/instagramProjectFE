@@ -15,7 +15,7 @@ const config = {
 export const __createArticles = createAsyncThunk(
   'createArticles',
   async (payload, thunkAPI) => {
-    console.log('payload!!!!', payload);
+    // console.log('payload!!!!', payload);
     try {
       const formConfig = {
         headers: {
@@ -29,7 +29,7 @@ export const __createArticles = createAsyncThunk(
         payload,
         formConfig
       );
-      console.log('업로드!!!!!', data.data);
+      // console.log('업로드!!!!!', data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -56,7 +56,8 @@ export const __readOneArticle = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const { data } = await axios.get(
-        `${BASE_URL}/api/auth/article/${payload}`
+        `${BASE_URL}/api/auth/article/${payload}`,
+        config
       );
       return thunkAPI.fulfillWithValue(data);
     } catch (e) {

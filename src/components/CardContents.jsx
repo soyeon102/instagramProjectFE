@@ -10,7 +10,7 @@ import { colors } from '../theme/theme';
 import defaultImg from '../assets/img/img-profile.jpg';
 import CommentList from './CommentList';
 
-const CardContents = () => {
+const CardContents = ({ articles }) => {
   const [isLike, setIsLike] = useState(false);
 
   return (

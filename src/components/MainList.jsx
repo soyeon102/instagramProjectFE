@@ -8,7 +8,7 @@ const MainList = () => {
   const dispatch = useDispatch();
   const articles = useSelector((state) => state.article.articles);
 
-  console.log(articles);
+  console.log('ddd', articles);
 
   useEffect(() => {
     dispatch(__readArticles());
