@@ -1,35 +1,43 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 import styled from 'styled-components';
 import loginImg from '../assets/img/img-login.png';
 import { ReactComponent as IconLogo } from '../assets/icon/icon-logo.svg';
 import { colors } from '../theme/theme';
-import { __loginUser } from '../redux/modules/userSlice';
+import { BASE_URL } from '../shared/api';
+import { setCookie } from '../shared/Cookie';
 
 const Login = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const [disabledBtn, setDisabledBtn] = useState(true);
   const [loginVal, setLoginVal] = useState({
     email: '',
     password: '',
   });
+
+  // const { loginError, isLogin } = useSelector((state) => state.user);
   const { email, password } = loginVal;
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleChange = (e) => {
     setLoginVal({ ...loginVal, [e.target.name]: e.target.value });
   };
 
-  const handleLogin = () => {
-    dispatch(__loginUser(loginVal))
-      .then(() => {
-        navigate('/');
-      })
-      .catch((error) => {
-        console.log('error!!!');
-      });
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/api/member/login`,
+        loginVal
+      );
+      setCookie('ACCESS_TOKEN', response.headers.authorization);
+      navigate('/');
+    } catch (error) {
+      setErrorMsg(error.response.data.errorMessage);
+    }
   };
 
   useEffect(() => {
@@ -66,6 +74,10 @@ const Login = () => {
             <LoginButton disabled={disabledBtn} onClick={handleLogin}>
               로그인
             </LoginButton>
+            {/* {errorMsg !== '' ? (
+              <ErrorMsg>{errorMsg}</ErrorMsg>
+            ) : null} */}
+            <ErrorMsg>{errorMsg}</ErrorMsg>
           </LoginBox>
 
           <SignupBox>
@@ -109,9 +121,9 @@ const LoginBox = styled.div`
   justify-content: center;
   background-color: white;
   width: 350px;
-  height: 350px;
+  height: 320px;
   border: 1px solid #eee;
-  margin: 0 auto;
+  /* margin: 0 auto; */
   text-align: center;
   display: flex;
   justify-content: center;
@@ -143,6 +155,7 @@ const LoginButton = styled.button`
   width: 250px;
   height: 30px;
   margin-top: 10px;
+  margin-bottom: 20px;
 
   &:disabled {
     background-color: #b2dffc;
@@ -176,4 +189,9 @@ const SignupButton = styled.button`
   background: none;
   font-weight: bold;
   color: ${colors.primary};
+`;
+
+const ErrorMsg = styled.p`
+  color: red;
+  font-size: 12px;
 `;

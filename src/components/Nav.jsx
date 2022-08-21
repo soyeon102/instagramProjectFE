@@ -44,6 +44,7 @@ export default Nav;
 const NavContainer = styled.div`
   position: fixed;
   top: 0;
+  z-index: 99;
   width: 100%;
   height: 60px;
   border: 1px solid ${colors.border};
