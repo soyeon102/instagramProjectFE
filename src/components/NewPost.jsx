@@ -10,9 +10,19 @@ import defaultImg from '../assets/img/img-profile.jpg';
 import { colors } from '../theme/theme';
 import icons from '../assets/img/icons.png';
 import MySwiperSlide from './MySwiperSlide';
+import { useDispatch } from 'react-redux';
+import { __createArticles } from '../redux/modules/articleSlice';
+import { getCookie } from '../shared/Cookie';
 
 const NewPost = () => {
+  const nick = getCookie('nickname');
+  const dispatch = useDispatch();
+  const [formVal, setFormVal] = useState({
+    nickname: nick,
+    content: '',
+  });
   const [files, setFiles] = useState([]);
+  const { nickname, content } = formVal;
 
   const { getRootProps, getInputProps } = useDropzone({
     maxFiles: 6,
@@ -32,18 +42,40 @@ const NewPost = () => {
     },
   });
 
+  const handleAddPost = () => {
+    const formData = new FormData();
+    const newFormVal = {
+      nickname: nick,
+      content: content,
+    };
+
+    files.map((file, i) => {
+      formData.append('multipartFile', files[i]);
+    });
+
+    formData.append(
+      'dto',
+      new Blob([JSON.stringify(newFormVal)], { type: 'application/json' })
+    );
+
+    dispatch(__createArticles(formData));
+  };
+
   useEffect(() => {
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
   }, []);
-
-  console.log(files);
 
   return (
     <StNewPost>
       <StNewPostHeader>
         <IconBack />
         <StText>새 게시물 만들기</StText>
-        <StText primary fz='14px'>
+        <StText
+          primary
+          fz='14px'
+          style={{ cursor: 'pointer' }}
+          onClick={handleAddPost}
+        >
           공유하기
         </StText>
       </StNewPostHeader>
@@ -85,7 +117,13 @@ const NewPost = () => {
             </UserProfile>
             <StText>baeji</StText>
           </StNewPostName>
-          <StTextarea placeholder='문구 입력...'></StTextarea>
+          <StTextarea
+            placeholder='문구 입력...'
+            value={content}
+            onChange={(e) => {
+              setFormVal({ content: e.target.value });
+            }}
+          ></StTextarea>
         </StNewPostBodyRight>
       </StNewPostBody>
     </StNewPost>

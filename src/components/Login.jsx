@@ -6,7 +6,7 @@ import loginImg from '../assets/img/img-login.png';
 import { ReactComponent as IconLogo } from '../assets/icon/icon-logo.svg';
 import { colors } from '../theme/theme';
 import { BASE_URL } from '../shared/api';
-import { setCookie } from '../shared/Cookie';
+import { getCookie, setCookie } from '../shared/Cookie';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -17,7 +17,6 @@ const Login = () => {
     password: '',
   });
 
-  // const { loginError, isLogin } = useSelector((state) => state.user);
   const { email, password } = loginVal;
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -34,6 +33,8 @@ const Login = () => {
         loginVal
       );
       setCookie('ACCESS_TOKEN', response.headers.authorization);
+      setCookie('nickname', response.data);
+      getCookie('ACCESS_TOKEN');
       navigate('/');
     } catch (error) {
       setErrorMsg(error.response.data.errorMessage);
@@ -194,4 +195,6 @@ const SignupButton = styled.button`
 const ErrorMsg = styled.p`
   color: red;
   font-size: 12px;
+  width: 250px;
+  word-break: keep-all;
 `;

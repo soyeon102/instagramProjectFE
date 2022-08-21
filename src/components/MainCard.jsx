@@ -13,7 +13,7 @@ import styled from 'styled-components';
 import icons from '../assets/img/icons.png';
 import { colors } from '../theme/theme';
 
-const MainCard = () => {
+const MainCard = ({ article }) => {
   const [isLike, setIsLike] = useState(false);
   const [isCreate, setIsCreate] = useState(false);
 

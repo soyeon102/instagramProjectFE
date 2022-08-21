@@ -6,6 +6,7 @@ const BASE_URL = 'http://13.209.97.60';
 
 const config = {
   headers: {
+    'Content-Type': 'application/json',
     Authorization: getCookie('ACCESS_TOKEN'),
   },
 };
@@ -14,8 +15,21 @@ const config = {
 export const __createArticles = createAsyncThunk(
   'createArticles',
   async (payload, thunkAPI) => {
+    console.log('payload!!!!', payload);
     try {
-      const data = await axios.post(`${BASE_URL}/api/auth/article`, payload);
+      const formConfig = {
+        headers: {
+          'Content-type': 'multipart/form-data',
+          responseType: 'blob',
+          Authorization: getCookie('ACCESS_TOKEN'),
+        },
+      };
+      const data = await axios.post(
+        `${BASE_URL}/api/auth/article`,
+        payload,
+        formConfig
+      );
+      console.log('업로드!!!!!', data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -28,7 +42,7 @@ export const __readArticles = createAsyncThunk(
   'readArticles',
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.get(`${BASE_URL}/api/auth/article`);
+      const data = await axios.get(`${BASE_URL}/api/auth/article`, config);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
@@ -44,7 +58,6 @@ export const __readOneArticle = createAsyncThunk(
       const { data } = await axios.get(
         `${BASE_URL}/api/auth/article/${payload}`
       );
-      console.log('data@@@', data);
       return thunkAPI.fulfillWithValue(data);
     } catch (e) {
       return thunkAPI.rejectWithValue(e.code);
