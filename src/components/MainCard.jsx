@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper';
 import Modal from '../components/Modal';
 import CardDetail from '../components/CardDetail';
 import { ReactComponent as IconMore } from '../assets/icon/icon-more.svg';
@@ -8,6 +10,7 @@ import { ReactComponent as IconComment } from '../assets/icon/icon-comment.svg';
 import { ReactComponent as IconShare } from '../assets/icon/icon-share.svg';
 import defaultImg from '../assets/img/img-profile.jpg';
 import styled from 'styled-components';
+import icons from '../assets/img/icons.png';
 import { colors } from '../theme/theme';
 
 const MainCard = () => {
@@ -24,6 +27,29 @@ const MainCard = () => {
     document.body.style.overflow = 'unset';
   };
 
+  const datas = [
+    {
+      id: 1,
+      imgUrl:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3l92E93XkhMDBXWDzuDLimxu4EcOpihu_GQ&usqp=CAU',
+    },
+    {
+      id: 2,
+      imgUrl:
+        'https://i1.sndcdn.com/artworks-Z5SLEGyINrvdjrkz-CQbgFA-t500x500.jpg',
+    },
+    {
+      id: 3,
+      imgUrl:
+        'https://i1.sndcdn.com/artworks-gVzXNjKiMNdDcdml-QsFSgA-t500x500.jpg',
+    },
+    {
+      id: 4,
+      imgUrl:
+        'https://www.newsquest.co.kr/news/photo/202205/96478_80014_5020.jpeg',
+    },
+  ];
+
   return (
     <CardContainer>
       <CardHeader>
@@ -39,7 +65,20 @@ const MainCard = () => {
       </CardHeader>
 
       <CardBody>
-        <ImgContainer></ImgContainer>
+        <ImgContainer>
+          <Swiper
+            navigation={true}
+            pagination={true}
+            modules={[Pagination, Navigation]}
+            style={{ width: '100%' }}
+          >
+            {datas.map((data) => (
+              <SwiperSlide key={data.id}>
+                <UploadImage src={data.imgUrl} alt='업로드 이미지' />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </ImgContainer>
       </CardBody>
 
       <CardFooter>
@@ -77,7 +116,7 @@ const MainCard = () => {
 export default MainCard;
 
 const CardContainer = styled.div`
-  min-width: 470px;
+  width: 470px;
   padding-bottom: 20px;
   border: 1px solid ${colors.border};
   border-radius: 8px;
@@ -121,12 +160,45 @@ const IconContainer = styled.div`
   cursor: pointer;
 `;
 
-const CardBody = styled.div``;
+const CardBody = styled.div`
+  width: 100%;
+  height: 100%;
+`;
 const CardFooter = styled.div``;
 const ImgContainer = styled.div`
   width: 100%;
+  height: 100%;
   background-color: #dedede;
   height: 588px;
+
+  // 스와이퍼
+  .swiper {
+    width: 100%;
+    height: 100%;
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    margin-top: 0;
+    width: 30px;
+    height: 30px;
+    transform: translateY(-50%);
+    background-image: url(${icons});
+    background-repeat: no-repeat;
+    background-size: 440px 411px;
+
+    ::after {
+      content: '';
+    }
+  }
+
+  .swiper-button-prev {
+    background-position: -129px -97px;
+  }
+
+  .swiper-button-next {
+    background-position: -160px -97px;
+  }
 `;
 
 const Icons = styled.div`
@@ -166,4 +238,10 @@ const Comment = styled.div`
 const UploadTime = styled.div`
   font-size: 10px;
   color: ${colors.textTime};
+`;
+
+const UploadImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;

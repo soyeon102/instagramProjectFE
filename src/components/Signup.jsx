@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import styled from 'styled-components';
 import { ReactComponent as IconLogo } from '../assets/icon/icon-logo.svg';
 import { colors } from '../theme/theme';
-import { __signupUser } from '../redux/modules/userSlice';
+import { BASE_URL } from '../shared/api';
 
 const Signup = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isLoading, error, user } = useSelector((state) => state.user);
+
+  const [errorMsg, setErrorMsg] = useState('');
 
   const [disabledBtn, setDisabledBtn] = useState(true);
   const [signupVal, setSignupVal] = useState({
@@ -23,9 +23,18 @@ const Signup = () => {
     setSignupVal({ ...signupVal, [e.target.name]: e.target.value });
   };
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-    dispatch(__signupUser(signupVal));
+
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/api/member/signup`,
+        signupVal
+      );
+      navigate('/login');
+    } catch (error) {
+      setErrorMsg(error.response.data.errorMessage);
+    }
   };
 
   useEffect(() => {
@@ -63,7 +72,10 @@ const Signup = () => {
             value={password}
             onChange={handleChange}
           />
-          {error ? <ErrorMsg>{error}</ErrorMsg> : null}
+          <ErrorMsg>{errorMsg}</ErrorMsg>
+          {/* {errorMsg !== '' ? (
+            <ErrorMsg>{errorMsg}</ErrorMsg>
+          ) : null} */}
           <SignupButton type='submit' disabled={disabledBtn}>
             가입
           </SignupButton>

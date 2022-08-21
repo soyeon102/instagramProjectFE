@@ -8,9 +8,8 @@ import { ReactComponent as IconBack } from '../assets/icon/icon-back.svg';
 import { ReactComponent as IconMedia } from '../assets/icon/icon-media.svg';
 import defaultImg from '../assets/img/img-profile.jpg';
 import { colors } from '../theme/theme';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import icons from '../assets/img/icons.png';
+import MySwiperSlide from './MySwiperSlide';
 
 const NewPost = () => {
   const [files, setFiles] = useState([]);
@@ -32,19 +31,6 @@ const NewPost = () => {
       );
     },
   });
-
-  // const thumbs = files.map((file) => (
-  //   <div key={file.name}>
-  //     <div>
-  //       <img
-  //         src={file.preview}
-  //         onLoad={() => {
-  //           URL.revokeObjectURL(file.preview);
-  //         }}
-  //       />
-  //     </div>
-  //   </div>
-  // ));
 
   useEffect(() => {
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
@@ -81,21 +67,10 @@ const NewPost = () => {
                 navigation={true}
                 pagination={true}
                 modules={[Pagination, Navigation]}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  background: 'black',
-                  position: 'relative',
-                  zIndex: '99',
-                }}
               >
                 {files.map((file) => (
                   <SwiperSlide key={file.path}>
-                    <img
-                      style={{ width: '100%', objectFit: 'cover' }}
-                      src={file.preview}
-                      alt='업로드 이미지'
-                    />
+                    <UploadImage src={file.preview} alt='업로드 이미지' />
                   </SwiperSlide>
                 ))}
               </Swiper>
@@ -164,6 +139,35 @@ const StImageTab = styled.div`
   * + * {
     margin-top: 20px;
   }
+
+  // 스와이퍼
+  .swiper {
+    width: 100%;
+    height: 100%;
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    margin-top: 0;
+    width: 30px;
+    height: 30px;
+    transform: translateY(-50%);
+    background-image: url(${icons});
+    background-repeat: no-repeat;
+    background-size: 440px 411px;
+
+    ::after {
+      content: '';
+    }
+  }
+
+  .swiper-button-prev {
+    background-position: -129px -97px;
+  }
+
+  .swiper-button-next {
+    background-position: -160px -97px;
+  }
 `;
 
 const StButton = styled.button`
@@ -216,4 +220,10 @@ const StText = styled.p`
   color: ${(props) => (props.primary ? colors.primary : colors.black)};
   font-size: ${(props) => props.fz};
   font-weight: bold;
+`;
+
+const UploadImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;

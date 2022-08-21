@@ -6,37 +6,49 @@ import { ReactComponent as IconHeart } from '../assets/icon/icon-small-heart.svg
 import { useState } from 'react';
 
 const MyfeedList = () => {
+  const [selectCategory, setSelectCategory] = useState(true);
+
   const feedImg = [
     {
       id: 1,
-      img: 'img1',
+      imgUrl:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3l92E93XkhMDBXWDzuDLimxu4EcOpihu_GQ&usqp=CAU',
     },
     {
       id: 2,
-      img: 'img2',
+      imgUrl:
+        'https://i1.sndcdn.com/artworks-Z5SLEGyINrvdjrkz-CQbgFA-t500x500.jpg',
     },
     {
       id: 3,
-      img: 'img3',
+      imgUrl:
+        'https://i1.sndcdn.com/artworks-gVzXNjKiMNdDcdml-QsFSgA-t500x500.jpg',
     },
     {
       id: 4,
-      img: 'img4',
-    },
-    {
-      id: 5,
-      img: 'img5',
+      imgUrl:
+        'https://www.newsquest.co.kr/news/photo/202205/96478_80014_5020.jpeg',
     },
   ];
 
   return (
     <StMyFeed>
       <StCategories>
-        <StCategory isSelect>
+        <StCategory
+          isSelect={selectCategory}
+          onClick={() => {
+            setSelectCategory(!selectCategory);
+          }}
+        >
           <IconPost />
           <p>게시물</p>
         </StCategory>
-        <StCategory>
+        <StCategory
+          isSelect={selectCategory}
+          onClick={() => {
+            setSelectCategory(!selectCategory);
+          }}
+        >
           <IconHeart />
           <p>좋아요</p>
         </StCategory>

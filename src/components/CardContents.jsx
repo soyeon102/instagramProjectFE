@@ -15,36 +15,46 @@ const CardContents = () => {
 
   return (
     <BoardContainer>
-      <BoardHeader>
-        <UserProfile>
-          <UserImg>
-            <img src={defaultImg} alt='프로필사진' style={{ width: '100%' }} />
-          </UserImg>
-          <UserName>username</UserName>
-        </UserProfile>
-        <IconContainer>
-          <IconMore />
-        </IconContainer>
-      </BoardHeader>
+      <div>
+        <BoardHeader>
+          <UserProfile>
+            <UserImg>
+              <img
+                src={defaultImg}
+                alt='프로필사진'
+                style={{ width: '100%' }}
+              />
+            </UserImg>
+            <UserName>username</UserName>
+          </UserProfile>
+          <IconContainer>
+            <IconMore />
+          </IconContainer>
+        </BoardHeader>
 
-      <BoardBody>
-        <Contents>
-          <UserImg>
-            <img src={defaultImg} alt='프로필사진' style={{ width: '100%' }} />
-          </UserImg>
-          <UserPost>
-            <Content>
-              <span>username</span> 끝내줬던 여름휴가🌊여름휴가🌊끝내줬던
-              여름휴가🌊끝내줬던여름휴가🌊끝내줬던여름휴가🌊끝내줬던 여름휴가🌊
-              끝내줬던 여름휴가🌊
-            </Content>
-            <UploadTime>2주</UploadTime>
-          </UserPost>
-        </Contents>
+        <BoardBody>
+          <Contents>
+            <UserImg>
+              <img
+                src={defaultImg}
+                alt='프로필사진'
+                style={{ width: '100%' }}
+              />
+            </UserImg>
+            <UserPost>
+              <Content>
+                <span>username</span> 끝내줬던 여름휴가🌊여름휴가🌊끝내줬던
+                여름휴가🌊끝내줬던여름휴가🌊끝내줬던여름휴가🌊끝내줬던
+                여름휴가🌊 끝내줬던 여름휴가🌊
+              </Content>
+              <UploadTime>2주</UploadTime>
+            </UserPost>
+          </Contents>
 
-        {/* 댓글리스트 */}
-        <CommentList />
-      </BoardBody>
+          {/* 댓글리스트 */}
+          <CommentList />
+        </BoardBody>
+      </div>
 
       <BoardFooter>
         <Icons>
@@ -82,10 +92,9 @@ const BoardContainer = styled.div`
   flex: 1 1 auto;
   min-height: 571px;
   min-width: 0;
+  justify-content: space-between;
 
   align-self: stretch;
-
-  font-size: 100%;
   margin: 0;
   max-width: 500px;
   min-width: 405px;
