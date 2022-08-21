@@ -32,6 +32,7 @@ const Home = () => {
         <CardDetail />
       </Modal> */}
 
+      {/* 업로드 모달 */}
       {isCreate && (
         <Modal modalClose={handleModalClose}>
           <NewPost />

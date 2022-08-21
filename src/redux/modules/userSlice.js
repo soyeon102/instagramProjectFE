@@ -1,6 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { connectRouter } from 'connected-react-router';
-// import history from '../../history';
 import axios from 'axios';
 import { getCookie, setCookie } from '../../shared/Cookie';
 

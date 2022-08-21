@@ -23,7 +23,13 @@ const Login = () => {
   };
 
   const handleLogin = () => {
-    dispatch(__loginUser(loginVal));
+    dispatch(__loginUser(loginVal))
+      .then(() => {
+        navigate('/');
+      })
+      .catch((error) => {
+        console.log('error!!!');
+      });
   };
 
   useEffect(() => {
