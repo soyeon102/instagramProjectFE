@@ -16,9 +16,9 @@ const MainList = () => {
 
   return (
     <ListContainer>
-      <MainCard />
-      <MainCard />
-      <MainCard />
+      {articles?.map((article) => (
+        <MainCard key={article.id} article={article} />
+      ))}
     </ListContainer>
   );
 };
