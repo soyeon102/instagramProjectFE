@@ -25,7 +25,7 @@ const MainList = () => {
 
   return (
     <ListContainer>
-      {articles.map((article) => (
+      {articles?.map((article) => (
         <MainCard key={article.id} article={article} />
       ))}
     </ListContainer>
