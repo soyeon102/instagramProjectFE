@@ -3,8 +3,20 @@ import { Navigation, Pagination } from 'swiper';
 import styled from 'styled-components';
 import icons from '../assets/img/icons.png';
 import CardContents from './CardContents';
+import { useDispatch, useSelector } from 'react-redux';
+import { __readOneArticle } from '../redux/modules/articleSlice';
+import { useEffect } from 'react';
 
-const CardDetail = () => {
+const CardDetail = ({ articleId }) => {
+  const dispatch = useDispatch();
+  const articles = useSelector((state) => state.article.detail);
+
+  // console.log(article);
+
+  // useEffect(() => {
+  //   dispatch(__readOneArticle(articleID));
+  // }, [dispatch]);
+
   const datas = [
     {
       id: 1,
@@ -44,7 +56,7 @@ const CardDetail = () => {
           ))}
         </Swiper>
       </ImgContainer>
-      <CardContents />
+      <CardContents articles={articles} />
     </DetailContainer>
   );
 };

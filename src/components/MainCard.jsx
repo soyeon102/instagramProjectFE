@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper';
 import Modal from '../components/Modal';
@@ -57,7 +57,7 @@ const MainCard = ({ article }) => {
           <ProfileImg>
             <img src={defaultImg} alt='프로필사진' />
           </ProfileImg>
-          <ProfileName>username</ProfileName>
+          <ProfileName>{article.nickname}</ProfileName>
         </UserProfile>
         <IconContainer>
           <IconMore />
@@ -94,19 +94,29 @@ const MainCard = ({ article }) => {
           </IconContainer>
         </Icons>
         <Contents>
-          <LikeNum>좋아요 100개</LikeNum>
+          <LikeNum>좋아요{article.heartCnt}개</LikeNum>
           <Content>
-            <span>username</span> 끝내줬던 여름휴가🌊
+            <span>{article.nickname}</span>{' '}
+            {article.content.split('\n').map((line, i) => {
+              return (
+                <React.Fragment key={i}>
+                  {line}
+                  <br />
+                </React.Fragment>
+              );
+            })}
           </Content>
-          <Comment onClick={handleAddPost}>댓글 4개 모두보기</Comment>
-          <UploadTime>1일 전</UploadTime>
+          <Comment onClick={() => handleAddPost(article.id)}>
+            댓글 {article.commentCnt}개 모두보기
+          </Comment>
+          <UploadTime>{article.timeMsg}</UploadTime>
         </Contents>
       </CardFooter>
 
       {/* 상세 모달 */}
       {isCreate && (
         <Modal modalClose={handleModalClose}>
-          <CardDetail />
+          <CardDetail article={article.id} />
         </Modal>
       )}
     </CardContainer>
