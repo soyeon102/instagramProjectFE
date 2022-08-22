@@ -15,7 +15,7 @@ const config = {
 export const __createArticles = createAsyncThunk(
   'createArticles',
   async (payload, thunkAPI) => {
-    console.log('payload!!!!', payload);
+    // console.log('payload!!!!', payload);
     try {
       const formConfig = {
         headers: {
@@ -29,7 +29,7 @@ export const __createArticles = createAsyncThunk(
         payload,
         formConfig
       );
-      console.log('업로드!!!!!', data.data);
+      // console.log('업로드!!!!!', data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -115,6 +115,7 @@ export const articleSlice = createSlice({
       state.articles = action.payload;
     },
     [__readArticles.rejected]: (state, action) => {
+      state.isLoading = false;
       state.error = action.payload;
     },
 

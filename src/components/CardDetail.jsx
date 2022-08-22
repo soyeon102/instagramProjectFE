@@ -3,49 +3,39 @@ import { Navigation, Pagination } from 'swiper';
 import styled from 'styled-components';
 import icons from '../assets/img/icons.png';
 import CardContents from './CardContents';
+import { useDispatch, useSelector } from 'react-redux';
+import { __readOneArticle } from '../redux/modules/articleSlice';
+import { useEffect } from 'react';
 
-const CardDetail = () => {
-  const datas = [
-    {
-      id: 1,
-      imgUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3l92E93XkhMDBXWDzuDLimxu4EcOpihu_GQ&usqp=CAU',
-    },
-    {
-      id: 2,
-      imgUrl:
-        'https://i1.sndcdn.com/artworks-Z5SLEGyINrvdjrkz-CQbgFA-t500x500.jpg',
-    },
-    {
-      id: 3,
-      imgUrl:
-        'https://i1.sndcdn.com/artworks-gVzXNjKiMNdDcdml-QsFSgA-t500x500.jpg',
-    },
-    {
-      id: 4,
-      imgUrl:
-        'https://www.newsquest.co.kr/news/photo/202205/96478_80014_5020.jpeg',
-    },
-  ];
+const CardDetail = ({ articleId }) => {
+  const dispatch = useDispatch();
+
+  const article = useSelector((state) => state.article.detail);
+
+  useEffect(() => {
+    dispatch(__readOneArticle(articleId));
+  }, [dispatch]);
 
   return (
-    <DetailContainer>
-      <ImgContainer>
-        <Swiper
-          navigation={true}
-          pagination={true}
-          modules={[Pagination, Navigation]}
-          style={{ width: '100%' }}
-        >
-          {datas.map((data) => (
-            <SwiperSlide key={data.id}>
-              <UploadImage src={data.imgUrl} alt='업로드 이미지' />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </ImgContainer>
-      <CardContents />
-    </DetailContainer>
+    Object.keys(article).length !== 0 && (
+      <DetailContainer>
+        <ImgContainer>
+          <Swiper
+            navigation={true}
+            pagination={true}
+            modules={[Pagination, Navigation]}
+            style={{ width: '100%' }}
+          >
+            {article?.imgList.map((img) => (
+              <SwiperSlide key={img.id}>
+                <UploadImage src={img.imgUrl} alt='업로드 이미지' />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </ImgContainer>
+        <CardContents oneArticle={article} />
+      </DetailContainer>
+    )
   );
 };
 
@@ -58,6 +48,7 @@ const ImgContainer = styled.div`
   aspect-ratio: 571.2 / 769;
   justify-content: center;
   overflow: hidden;
+  background-color: white;
 
   // 스와이퍼
   .swiper {

@@ -12,17 +12,18 @@ const MainList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const articles = useSelector((state) => state.article.articles);
-  const article = useSelector((state) => state.article.detail);
 
-  if (articles.code === '1005' || articles.code === '1003') {
-    alert('다시 로그인해주세요.');
-    navigate('/login');
-  }
+  const { isLoading } = useSelector((state) => state.article);
+
+  console.log(articles);
 
   useEffect(() => {
     dispatch(__readArticles());
-    dispatch(__readOneArticle(2));
   }, [dispatch]);
+
+  // if (isLoading) {
+  //   return <div>로딩 중...</div>;
+  // }
 
   return (
     <ListContainer>

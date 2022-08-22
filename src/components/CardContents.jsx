@@ -10,8 +10,12 @@ import { colors } from '../theme/theme';
 import defaultImg from '../assets/img/img-profile.jpg';
 import CommentList from './CommentList';
 
-const CardContents = () => {
-  const [isLike, setIsLike] = useState(false);
+const CardContents = ({ oneArticle }) => {
+  const [myLike, setMyLike] = useState(false);
+  const { commentList, content, createdAt, isLike, nickname, timeMsg } =
+    oneArticle;
+
+  console.log(oneArticle);
 
   return (
     <BoardContainer>
@@ -25,7 +29,7 @@ const CardContents = () => {
                 style={{ width: '100%' }}
               />
             </UserImg>
-            <UserName>username</UserName>
+            <UserName>{nickname}</UserName>
           </UserProfile>
           <IconContainer>
             <IconMore />
@@ -43,11 +47,9 @@ const CardContents = () => {
             </UserImg>
             <UserPost>
               <Content>
-                <span>username</span> 끝내줬던 여름휴가🌊여름휴가🌊끝내줬던
-                여름휴가🌊끝내줬던여름휴가🌊끝내줬던여름휴가🌊끝내줬던
-                여름휴가🌊 끝내줬던 여름휴가🌊
+                <span>{nickname}</span> {content}
               </Content>
-              <UploadTime>2주</UploadTime>
+              <UploadTime>{timeMsg}</UploadTime>
             </UserPost>
           </Contents>
 
@@ -58,8 +60,8 @@ const CardContents = () => {
 
       <BoardFooter>
         <Icons>
-          <IconContainer onClick={() => setIsLike(!isLike)}>
-            {isLike ? <IconHeart /> : <IconEmptyHeart />}
+          <IconContainer onClick={() => setMyLike(!myLike)}>
+            {myLike ? <IconHeart /> : <IconEmptyHeart />}
           </IconContainer>
           <IconContainer>
             <IconComment />
@@ -70,7 +72,7 @@ const CardContents = () => {
         </Icons>
         <ContentsInfo>
           <LikeNum>좋아요 100개</LikeNum>
-          <UploadTime>8월 5</UploadTime>
+          <UploadTime>{createdAt}</UploadTime>
         </ContentsInfo>
         <UploadComment>
           <Emoji />
