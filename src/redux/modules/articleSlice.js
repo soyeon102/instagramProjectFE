@@ -66,6 +66,26 @@ export const __readOneArticle = createAsyncThunk(
   }
 );
 
+export const __updateArticles = createAsyncThunk(
+  'updateTodos',
+  async (payload, thunkAPI) => {
+    try {
+      await axios.patch(
+        `http://localhost:3001/articles/${payload.id}`,
+        config,
+        {
+          content: payload.content,
+        }
+      );
+
+      console.log('페이로드~~!@!@!@!!!@!@!@', payload);
+      return thunkAPI.fulfillWithValue(payload);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 // 삭제
 export const __deleteArticles = createAsyncThunk(
   'deleteArticles',
@@ -132,6 +152,23 @@ export const articleSlice = createSlice({
     [__readOneArticle.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
+    },
+
+    [__updateArticles.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__updateArticles.fulfilled]: (state, { payload }) => {
+      // console.log(payload);
+      state.isLoading = false;
+      state.articles = state.articles.map((article) =>
+        article.id === payload.id
+          ? { ...article, content: payload.content }
+          : article
+      );
+    },
+    [__updateArticles.rejected]: (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
     },
 
     // 삭제

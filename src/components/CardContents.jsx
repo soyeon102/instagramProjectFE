@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as IconMore } from '../assets/icon/icon-more.svg';
 import { ReactComponent as IconComment } from '../assets/icon/icon-comment.svg';
@@ -10,7 +10,10 @@ import { colors } from '../theme/theme';
 import defaultImg from '../assets/img/img-profile.jpg';
 import CommentList from './CommentList';
 import { useDispatch } from 'react-redux';
-import { __deleteArticles } from '../redux/modules/articleSlice';
+import {
+  __deleteArticles,
+  __updateArticles,
+} from '../redux/modules/articleSlice';
 
 const CardContents = ({ oneArticle }) => {
   const dispatch = useDispatch();
@@ -19,11 +22,33 @@ const CardContents = ({ oneArticle }) => {
   const { commentList, content, createdAt, isLike, nickname, timeMsg, id } =
     oneArticle;
 
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [updatedArticle, setUpdatedArticle] = useState('');
+
   const onClickDeleteHandler = (id) => {
     dispatch(__deleteArticles(id));
   };
 
-  console.log(id);
+  useEffect(() => {
+    setUpdatedArticle(content);
+  }, []);
+
+  // console.log('잘 찍혀???', updatedArticle);
+
+  const onSaveButtonHandler = () => {
+    if (updatedArticle.trim() === '') {
+      return alert('입력된 내용이 없습니다.');
+    }
+    dispatch(
+      __updateArticles({
+        oneArticle,
+        content: updatedArticle,
+      })
+    );
+    setIsEditMode(false);
+  };
+
+  console.log('수정된 원아티클!!!!', oneArticle);
 
   return (
     <BoardContainer>
@@ -40,6 +65,18 @@ const CardContents = ({ oneArticle }) => {
             <UserName>{nickname}</UserName>
           </UserProfile>
           <IconContainer>
+            {isEditMode ? (
+              <button onClick={onSaveButtonHandler}>저장</button>
+            ) : (
+              <button
+                onClick={() => {
+                  setIsEditMode(true);
+                }}
+              >
+                수정
+              </button>
+            )}
+
             <IconMore onClick={() => onClickDeleteHandler(id)} />
           </IconContainer>
         </BoardHeader>
@@ -55,7 +92,18 @@ const CardContents = ({ oneArticle }) => {
             </UserImg>
             <UserPost>
               <Content>
-                <span>{nickname}</span> {content}
+                <span>{nickname}</span>
+                {isEditMode ? (
+                  <StTextArea
+                    name='body'
+                    value={updatedArticle}
+                    onChange={(e) => {
+                      setUpdatedArticle(e.target.value);
+                    }}
+                  />
+                ) : (
+                  <StText>{content}</StText>
+                )}
               </Content>
               <UploadTime>{timeMsg}</UploadTime>
             </UserPost>
@@ -248,3 +296,6 @@ const UploadComment = styled.div`
 const Emoji = styled(IconEmoji)`
   margin-right: 16px;
 `;
+
+const StTextArea = styled.textarea``;
+const StText = styled.div``;
