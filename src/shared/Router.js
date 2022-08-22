@@ -17,7 +17,7 @@ const Router = () => {
     dispatch(getUser());
   }, [dispatch]);
 
-  console.log(isLogin);
+  console.log('로그인', isLogin);
 
   return (
     <BrowserRouter>

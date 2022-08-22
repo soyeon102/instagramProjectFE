@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as IconMore } from '../assets/icon/icon-more.svg';
+import { ReactComponent as IconRemove } from '../assets/icon/icon-remove.svg';
 import { ReactComponent as IconComment } from '../assets/icon/icon-comment.svg';
 import { ReactComponent as IconShare } from '../assets/icon/icon-share.svg';
 import { ReactComponent as IconHeart } from '../assets/icon/icon-heart.svg';
@@ -10,12 +11,19 @@ import { colors } from '../theme/theme';
 import defaultImg from '../assets/img/img-profile.jpg';
 import CommentList from './CommentList';
 import { useDispatch } from 'react-redux';
-import { __likeArticle, __readOneArticle } from '../redux/modules/articleSlice';
+import {
+  __likeArticle,
+  __readOneArticle,
+  __deleteArticles,
+} from '../redux/modules/articleSlice';
 import { __createComment } from '../redux/modules/commentSlice';
+import { getCookie } from '../shared/Cookie';
 
 const CardContents = ({ oneArticle }) => {
   const dispatch = useDispatch();
   const [commentVal, setCommentVal] = useState('');
+
+  const nick = getCookie('nickname');
 
   const {
     id,
@@ -40,7 +48,11 @@ const CardContents = ({ oneArticle }) => {
 
   useEffect(() => {});
 
-  console.log(oneArticle);
+  const onClickDeleteHandler = (id) => {
+    dispatch(__deleteArticles(id));
+  };
+
+  console.log(id);
 
   return (
     <BoardContainer>
@@ -57,7 +69,9 @@ const CardContents = ({ oneArticle }) => {
             <UserName>{nickname}</UserName>
           </UserProfile>
           <IconContainer>
-            <IconMore />
+            {nick === nickname && (
+              <IconRemove onClick={() => onClickDeleteHandler(id)} />
+            )}
           </IconContainer>
         </BoardHeader>
 

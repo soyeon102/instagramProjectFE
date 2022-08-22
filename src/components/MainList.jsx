@@ -14,18 +14,18 @@ const MainList = () => {
   const articles = useSelector((state) => state.article.articles);
 
   console.log(articles);
+  const { isLoading } = useSelector((state) => state.article);
 
   useEffect(() => {
     dispatch(__readArticles());
+    if (articles.code === '1005' || articles.code === '1003') {
+      return navigate('/login');
+    }
   }, [dispatch]);
-
-  if (articles.code === '1005' || articles.code === '1003') {
-    return navigate('/login');
-  }
 
   return (
     <ListContainer>
-      {articles?.map((article) => (
+      {articles.map((article) => (
         <MainCard key={article.id} article={article} />
       ))}
     </ListContainer>
