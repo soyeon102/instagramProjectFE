@@ -14,12 +14,10 @@ const Router = () => {
   const { isLogin } = useSelector((state) => state.user);
 
   useEffect(() => {
-    dispatch(getUser());
+    // dispatch(getUser());
     getCookie('ACCESS_TOKEN');
-    console.log('토큰 가져와', getCookie('ACCESS_TOKEN'));
+    console.log('토큰 가져와!', getCookie('ACCESS_TOKEN'));
   }, [dispatch]);
-
-  console.log('라우터 로그인', isLogin);
 
   return (
     <BrowserRouter>

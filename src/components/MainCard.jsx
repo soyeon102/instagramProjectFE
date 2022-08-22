@@ -39,6 +39,7 @@ const MainCard = ({ article }) => {
 
   const handleLikeButton = () => {
     dispatch(__likeArticle(id));
+    dispatch(__readArticles());
   };
 
   const handleDetailPost = (id) => {
@@ -49,6 +50,7 @@ const MainCard = ({ article }) => {
   const handleModalClose = () => {
     setIsDetail(false);
     document.body.style.overflow = 'unset';
+    dispatch(__readArticles());
   };
 
   useEffect(() => {
@@ -101,7 +103,7 @@ const MainCard = ({ article }) => {
         <Contents>
           <LikeNum>좋아요 {heartCnt}개</LikeNum>
           <Content>
-            <span>{nickname}</span>{' '}
+            <span>{nickname}</span>
             {content.split('\n').map((line, i) => {
               return (
                 <React.Fragment key={i}>

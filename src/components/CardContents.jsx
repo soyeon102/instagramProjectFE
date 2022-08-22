@@ -10,7 +10,7 @@ import { ReactComponent as IconEmoji } from '../assets/icon/icon-emoji.svg';
 import { colors } from '../theme/theme';
 import defaultImg from '../assets/img/img-profile.jpg';
 import CommentList from './CommentList';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   __likeArticle,
   __readOneArticle,
@@ -37,6 +37,8 @@ const CardContents = ({ oneArticle }) => {
     heartCnt,
   } = oneArticle;
 
+  const { isLoading } = useSelector((state) => state.article);
+
   const handleLikeButton = () => {
     dispatch(__likeArticle(id));
   };
@@ -52,6 +54,10 @@ const CardContents = ({ oneArticle }) => {
   const onClickDeleteHandler = (id) => {
     dispatch(__deleteArticles(id));
   };
+
+  if (isLoading) {
+    return <div>로딩중...</div>;
+  }
 
   return (
     <BoardContainer>

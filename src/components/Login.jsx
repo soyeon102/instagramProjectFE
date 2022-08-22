@@ -29,10 +29,8 @@ const Login = () => {
   };
 
   const handleLogin = async (e) => {
-    e.preventDefault();
     dispatch(__loginUser(loginVal));
-    dispatch(getUser());
-    console.log('로그인 컴포넌트', isLogin);
+    // console.log('로그인 컴포넌트 로그인', isLogin);
     isLogin && navigate('/');
   };
 
@@ -43,6 +41,10 @@ const Login = () => {
       setDisabledBtn(true);
     }
   }, [loginVal]);
+
+  useEffect(() => {
+    console.log('로그인 컴포넌트 로그인', isLogin);
+  }, [isLogin]);
 
   return (
     <LoginContainer>

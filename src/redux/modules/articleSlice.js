@@ -146,7 +146,6 @@ export const articleSlice = createSlice({
     [__readOneArticle.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.detail = action.payload;
-      console.log('상세 조회 응답!', state.detail);
     },
     [__readOneArticle.rejected]: (state, action) => {
       state.isLoading = false;
@@ -162,7 +161,6 @@ export const articleSlice = createSlice({
       state.articles = state.articles.filter(
         (article) => article.id !== action.payload
       );
-      console.log('삭제 후 state!!!!', state.articles);
     },
     [__deleteArticles.rejected]: (state, action) => {
       state.isLoading = false;
