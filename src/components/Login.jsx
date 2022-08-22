@@ -7,8 +7,12 @@ import { ReactComponent as IconLogo } from '../assets/icon/icon-logo.svg';
 import { colors } from '../theme/theme';
 import { BASE_URL } from '../shared/api';
 import { getCookie, setCookie } from '../shared/Cookie';
+import { useDispatch, useSelector } from 'react-redux';
+import { __loginUser } from '../redux/modules/userSlice';
+import { getUser } from '../redux/modules/userSlice';
 
 const Login = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [disabledBtn, setDisabledBtn] = useState(true);
@@ -18,7 +22,7 @@ const Login = () => {
   });
 
   const { email, password } = loginVal;
-  const [errorMsg, setErrorMsg] = useState('');
+  const { isLogin, error } = useSelector((state) => state.user);
 
   const handleChange = (e) => {
     setLoginVal({ ...loginVal, [e.target.name]: e.target.value });
@@ -26,19 +30,10 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
-    try {
-      const response = await axios.post(
-        `${BASE_URL}/api/member/login`,
-        loginVal
-      );
-      setCookie('ACCESS_TOKEN', response.headers.authorization);
-      setCookie('nickname', response.data);
-      getCookie('ACCESS_TOKEN');
-      navigate('/');
-    } catch (error) {
-      setErrorMsg(error.response.data.errorMessage);
-    }
+    dispatch(__loginUser(loginVal));
+    dispatch(getUser());
+    console.log('로그인 컴포넌트', isLogin);
+    isLogin && navigate('/');
   };
 
   useEffect(() => {
@@ -75,10 +70,7 @@ const Login = () => {
             <LoginButton disabled={disabledBtn} onClick={handleLogin}>
               로그인
             </LoginButton>
-            {/* {errorMsg !== '' ? (
-              <ErrorMsg>{errorMsg}</ErrorMsg>
-            ) : null} */}
-            <ErrorMsg>{errorMsg}</ErrorMsg>
+            {error !== null && <ErrorMsg>{error}</ErrorMsg>}
           </LoginBox>
 
           <SignupBox>

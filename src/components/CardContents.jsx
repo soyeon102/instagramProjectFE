@@ -15,6 +15,7 @@ import {
   __likeArticle,
   __readOneArticle,
   __deleteArticles,
+  __readArticles,
 } from '../redux/modules/articleSlice';
 import { __createComment } from '../redux/modules/commentSlice';
 import { getCookie } from '../shared/Cookie';
@@ -43,16 +44,14 @@ const CardContents = ({ oneArticle }) => {
   const handleAddComment = async () => {
     await dispatch(__createComment({ id: id, content: commentVal }));
     await dispatch(__readOneArticle(id));
+    await dispatch(__readArticles());
+
     setCommentVal('');
   };
-
-  useEffect(() => {});
 
   const onClickDeleteHandler = (id) => {
     dispatch(__deleteArticles(id));
   };
-
-  console.log(id);
 
   return (
     <BoardContainer>
@@ -68,11 +67,12 @@ const CardContents = ({ oneArticle }) => {
             </UserImg>
             <UserName>{nickname}</UserName>
           </UserProfile>
-          <IconContainer>
-            {nick === nickname && (
+
+          {nick === nickname && (
+            <IconContainer>
               <IconRemove onClick={() => onClickDeleteHandler(id)} />
-            )}
-          </IconContainer>
+            </IconContainer>
+          )}
         </BoardHeader>
 
         <BoardBody>

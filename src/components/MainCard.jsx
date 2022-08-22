@@ -37,8 +37,6 @@ const MainCard = ({ article }) => {
     imgList,
   } = article;
 
-  console.log('MainCard article!!', article);
-
   const handleLikeButton = () => {
     dispatch(__likeArticle(id));
   };
@@ -46,8 +44,6 @@ const MainCard = ({ article }) => {
   const handleDetailPost = (id) => {
     setIsDetail(true);
     setArticleId(id);
-
-    document.body.style.overflow = 'hidden';
   };
 
   const handleModalClose = () => {

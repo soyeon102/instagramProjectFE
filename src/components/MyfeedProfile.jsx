@@ -1,21 +1,35 @@
 import styled from 'styled-components';
 import defaultImg from '../assets/img/img-profile.jpg';
 import { colors } from '../theme/theme';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { __readMyArticles } from '../redux/modules/myArticleSlice';
+import { getCookie } from '../shared/Cookie';
 
 const MyfeedProfile = () => {
+  const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.myArticle.myArticles);
+  const { isLoading } = useSelector((state) => state.myArticle);
+
+  const nickname = getCookie('nickname');
+
+  useEffect(() => {
+    dispatch(__readMyArticles());
+  }, [dispatch]);
+
   return (
     <StMyfeedProfile>
       <ProfileContainer>
         <StProfilePicture>
-          <img src={defaultImg} />
+          <img src={defaultImg} alt='프로필 이미지' />
         </StProfilePicture>
       </ProfileContainer>
 
       <StProfileBox>
-        <StName>baeji</StName>
+        <StName>{nickname}</StName>
         <StProfile>
           <StProfileText>
-            게시물<span>10</span>
+            게시물<span>{userInfo.length}</span>
           </StProfileText>
 
           <StProfileText>
