@@ -3,7 +3,7 @@ import defaultImg from '../assets/img/img-profile.jpg';
 import { colors } from '../theme/theme';
 
 const Comment = ({ comments }) => {
-  const { id, profile, name, comment, date } = comments;
+  const { id, nickname, content, timeMsg } = comments;
 
   return (
     <CommentContainer>
@@ -13,10 +13,10 @@ const Comment = ({ comments }) => {
         </UserProfile>
         <Contents>
           <UserComment>
-            <span>{name}</span>
-            {comment}
+            <span>{nickname}</span>
+            {content}
           </UserComment>
-          <CommentDate>{date}</CommentDate>
+          <CommentDate>{timeMsg}</CommentDate>
         </Contents>
       </User>
     </CommentContainer>

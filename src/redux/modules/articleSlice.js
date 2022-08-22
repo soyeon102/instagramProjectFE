@@ -72,8 +72,30 @@ export const __deleteArticles = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await axios.delete(
-        `${BASE_URL}/api/auth/article/${payload}`
+        `${BASE_URL}/api/auth/article/${payload}`,
+        config
       );
+      return thunkAPI.fulfillWithValue(data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+// 좋아요
+export const __likeArticle = createAsyncThunk(
+  'likeArticle',
+  async (payload, thunkAPI) => {
+    try {
+      // 기존 방식으로 접근 불가능. payload에 hearder가 담기는 문제 발생
+      const data = await axios({
+        method: 'post',
+        url: `${BASE_URL}/api/auth/heart/${payload}`,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: getCookie('ACCESS_TOKEN'),
+        },
+      });
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -143,6 +165,19 @@ export const articleSlice = createSlice({
       );
     },
     [__deleteArticles.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+
+    // 좋아요
+    [__likeArticle.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__likeArticle.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.articles = action.payload;
+    },
+    [__likeArticle.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },

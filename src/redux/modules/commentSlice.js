@@ -17,8 +17,8 @@ export const __createComment = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await axios.post(
-        `${BASE_URL}/api/auth/comment/${payload}`,
-        payload,
+        `${BASE_URL}/api/auth/comment/${payload.id}`,
+        payload.content,
         config
       );
       return thunkAPI.fulfillWithValue(data.data);
@@ -45,7 +45,7 @@ export const commentSlice = createSlice({
     },
     [__createComment.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.articles = action.payload;
+      state.comments = action.payload;
     },
     [__createComment.rejected]: (state, action) => {
       state.isLoading = false;

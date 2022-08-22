@@ -14,7 +14,7 @@ import { useDispatch } from 'react-redux';
 import { __createArticles } from '../redux/modules/articleSlice';
 import { getCookie } from '../shared/Cookie';
 
-const NewPost = () => {
+const NewPost = ({ modalClose }) => {
   const nick = getCookie('nickname');
   const dispatch = useDispatch();
   const [formVal, setFormVal] = useState({
@@ -59,6 +59,7 @@ const NewPost = () => {
     );
 
     dispatch(__createArticles(formData));
+    modalClose();
   };
 
   useEffect(() => {
@@ -115,7 +116,7 @@ const NewPost = () => {
             <UserProfile>
               <img src={defaultImg} alt='유저 프로필'></img>
             </UserProfile>
-            <StText>baeji</StText>
+            <StText>{nick}</StText>
           </StNewPostName>
           <StTextarea
             placeholder='문구 입력...'
