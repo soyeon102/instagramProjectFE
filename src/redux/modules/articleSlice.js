@@ -72,8 +72,10 @@ export const __deleteArticles = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await axios.delete(
-        `${BASE_URL}/api/auth/article/${payload}`
+        `${BASE_URL}/api/auth/article/${payload}`,
+        config
       );
+      // console.log('페이로드!!!!', payload);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -141,6 +143,7 @@ export const articleSlice = createSlice({
       state.articles = state.articles.filter(
         (article) => article.id !== action.payload
       );
+      console.log('왜안돼ㅜㅜㅠㅠㅠㅠ', action);
     },
     [__deleteArticles.rejected]: (state, action) => {
       state.isLoading = false;

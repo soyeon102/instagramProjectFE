@@ -15,7 +15,7 @@ const MainList = () => {
 
   const { isLoading } = useSelector((state) => state.article);
 
-  console.log(articles);
+  // console.log(articles);
 
   useEffect(() => {
     dispatch(__readArticles());
@@ -27,7 +27,7 @@ const MainList = () => {
 
   return (
     <ListContainer>
-      {articles?.map((article) => (
+      {articles.map((article) => (
         <MainCard key={article.id} article={article} />
       ))}
     </ListContainer>
