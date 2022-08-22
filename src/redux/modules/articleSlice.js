@@ -56,7 +56,8 @@ export const __readOneArticle = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const { data } = await axios.get(
-        `${BASE_URL}/api/auth/article/${payload}`
+        `${BASE_URL}/api/auth/article/${payload}`,
+        config
       );
       return thunkAPI.fulfillWithValue(data);
     } catch (e) {
