@@ -9,13 +9,21 @@ import { ReactComponent as IconEmoji } from '../assets/icon/icon-emoji.svg';
 import { colors } from '../theme/theme';
 import defaultImg from '../assets/img/img-profile.jpg';
 import CommentList from './CommentList';
+import { useDispatch } from 'react-redux';
+import { __deleteArticles } from '../redux/modules/articleSlice';
 
 const CardContents = ({ oneArticle }) => {
+  const dispatch = useDispatch();
+
   const [myLike, setMyLike] = useState(false);
-  const { commentList, content, createdAt, isLike, nickname, timeMsg } =
+  const { commentList, content, createdAt, isLike, nickname, timeMsg, id } =
     oneArticle;
 
-  console.log(oneArticle);
+  const onClickDeleteHandler = (id) => {
+    dispatch(__deleteArticles(id));
+  };
+
+  console.log(id);
 
   return (
     <BoardContainer>
@@ -32,7 +40,7 @@ const CardContents = ({ oneArticle }) => {
             <UserName>{nickname}</UserName>
           </UserProfile>
           <IconContainer>
-            <IconMore />
+            <IconMore onClick={() => onClickDeleteHandler(id)} />
           </IconContainer>
         </BoardHeader>
 
