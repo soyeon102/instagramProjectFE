@@ -92,7 +92,8 @@ const CardContents = ({ oneArticle }) => {
             </UserImg>
             <UserPost>
               <Content>
-                <span>{nickname}</span> {content}
+                <span>{nickname}</span>
+                {content}
               </Content>
               <UploadTime>{timeMsg}</UploadTime>
             </UserPost>
@@ -292,3 +293,6 @@ const UploadComment = styled.div`
 const Emoji = styled(IconEmoji)`
   margin-right: 16px;
 `;
+
+const StTextArea = styled.textarea``;
+const StText = styled.div``;
