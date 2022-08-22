@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as IconMore } from '../assets/icon/icon-more.svg';
+import { ReactComponent as IconRemove } from '../assets/icon/icon-remove.svg';
 import { ReactComponent as IconComment } from '../assets/icon/icon-comment.svg';
 import { ReactComponent as IconShare } from '../assets/icon/icon-share.svg';
 import { ReactComponent as IconHeart } from '../assets/icon/icon-heart.svg';
@@ -10,14 +11,42 @@ import { colors } from '../theme/theme';
 import defaultImg from '../assets/img/img-profile.jpg';
 import CommentList from './CommentList';
 import { useDispatch } from 'react-redux';
-import { __deleteArticles } from '../redux/modules/articleSlice';
+import {
+  __likeArticle,
+  __readOneArticle,
+  __deleteArticles,
+} from '../redux/modules/articleSlice';
+import { __createComment } from '../redux/modules/commentSlice';
+import { getCookie } from '../shared/Cookie';
 
 const CardContents = ({ oneArticle }) => {
   const dispatch = useDispatch();
+  const [commentVal, setCommentVal] = useState('');
 
-  const [myLike, setMyLike] = useState(false);
-  const { commentList, content, createdAt, isLike, nickname, timeMsg, id } =
-    oneArticle;
+  const nick = getCookie('nickname');
+
+  const {
+    id,
+    commentList,
+    content,
+    createdAt,
+    like,
+    nickname,
+    timeMsg,
+    heartCnt,
+  } = oneArticle;
+
+  const handleLikeButton = () => {
+    dispatch(__likeArticle(id));
+  };
+
+  const handleAddComment = async () => {
+    await dispatch(__createComment({ id: id, content: commentVal }));
+    await dispatch(__readOneArticle(id));
+    setCommentVal('');
+  };
+
+  useEffect(() => {});
 
   const onClickDeleteHandler = (id) => {
     dispatch(__deleteArticles(id));
@@ -40,7 +69,9 @@ const CardContents = ({ oneArticle }) => {
             <UserName>{nickname}</UserName>
           </UserProfile>
           <IconContainer>
-            <IconMore onClick={() => onClickDeleteHandler(id)} />
+            {nick === nickname && (
+              <IconRemove onClick={() => onClickDeleteHandler(id)} />
+            )}
           </IconContainer>
         </BoardHeader>
 
@@ -62,14 +93,14 @@ const CardContents = ({ oneArticle }) => {
           </Contents>
 
           {/* 댓글리스트 */}
-          <CommentList />
+          <CommentList commentList={commentList} />
         </BoardBody>
       </div>
 
       <BoardFooter>
         <Icons>
-          <IconContainer onClick={() => setMyLike(!myLike)}>
-            {myLike ? <IconHeart /> : <IconEmptyHeart />}
+          <IconContainer onClick={handleLikeButton}>
+            {like ? <IconHeart /> : <IconEmptyHeart />}
           </IconContainer>
           <IconContainer>
             <IconComment />
@@ -79,13 +110,20 @@ const CardContents = ({ oneArticle }) => {
           </IconContainer>
         </Icons>
         <ContentsInfo>
-          <LikeNum>좋아요 100개</LikeNum>
+          <LikeNum>좋아요 {heartCnt}개</LikeNum>
           <UploadTime>{createdAt}</UploadTime>
         </ContentsInfo>
         <UploadComment>
           <Emoji />
-          <input type='tex' placeholder='댓글 달기'></input>
-          <button>게시</button>
+          <input
+            type='tex'
+            placeholder='댓글 달기'
+            value={commentVal}
+            onChange={(e) => {
+              setCommentVal(e.target.value);
+            }}
+          ></input>
+          <button onClick={handleAddComment}>게시</button>
         </UploadComment>
       </BoardFooter>
     </BoardContainer>

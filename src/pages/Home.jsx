@@ -6,6 +6,7 @@ import Modal from '../components/Modal';
 import CardDetail from '../components/CardDetail';
 import NewPost from '../components/NewPost';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const Home = () => {
   const [isCreate, setIsCreate] = useState(false);
@@ -35,7 +36,7 @@ const Home = () => {
       {/* 업로드 모달 */}
       {isCreate && (
         <Modal modalClose={handleModalClose}>
-          <NewPost />
+          <NewPost modalClose={handleModalClose} />
         </Modal>
       )}
     </>
