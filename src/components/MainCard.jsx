@@ -16,16 +16,32 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   __readArticles,
   __readOneArticle,
+  __likeArticle,
 } from '../redux/modules/articleSlice';
 
 const MainCard = ({ article }) => {
   const dispatch = useDispatch();
 
   const [articleId, setArticleId] = useState(0);
-  // const oneArticle = useSelector((state) => state.article.detail);
-
-  const [isLike, setIsLike] = useState(false);
   const [isDetail, setIsDetail] = useState(false);
+
+  const {
+    id,
+    content,
+    createdAt,
+    commentCnt,
+    like,
+    nickname,
+    timeMsg,
+    heartCnt,
+    imgList,
+  } = article;
+
+  console.log('MainCard article!!', article);
+
+  const handleLikeButton = () => {
+    dispatch(__likeArticle(id));
+  };
 
   const handleDetailPost = (id) => {
     setIsDetail(true);
@@ -50,10 +66,10 @@ const MainCard = ({ article }) => {
           <ProfileImg>
             <img src={defaultImg} alt='프로필사진' />
           </ProfileImg>
-          <ProfileName>{article.nickname}</ProfileName>
+          <ProfileName>{nickname}</ProfileName>
         </UserProfile>
         <IconContainer>
-          <IconMore />
+          <IconMore onClick={() => handleDetailPost(article.id)} />
         </IconContainer>
       </CardHeader>
 
@@ -65,7 +81,7 @@ const MainCard = ({ article }) => {
             modules={[Pagination, Navigation]}
             style={{ width: '100%' }}
           >
-            {article.imgList.map((img) => (
+            {imgList.map((img) => (
               <SwiperSlide key={img.id}>
                 <UploadImage src={img.imgUrl} alt='업로드 이미지' />
               </SwiperSlide>
@@ -76,8 +92,8 @@ const MainCard = ({ article }) => {
 
       <CardFooter>
         <Icons>
-          <IconContainer onClick={() => setIsLike(!isLike)}>
-            {isLike ? <IconHeart /> : <IconEmptyHeart />}
+          <IconContainer onClick={handleLikeButton}>
+            {like ? <IconHeart /> : <IconEmptyHeart />}
           </IconContainer>
           <IconContainer>
             <IconComment />
@@ -87,10 +103,10 @@ const MainCard = ({ article }) => {
           </IconContainer>
         </Icons>
         <Contents>
-          <LikeNum>좋아요 {article.heartCnt}개</LikeNum>
+          <LikeNum>좋아요 {heartCnt}개</LikeNum>
           <Content>
-            <span>{article.nickname}</span>{' '}
-            {article.content.split('\n').map((line, i) => {
+            <span>{nickname}</span>{' '}
+            {content.split('\n').map((line, i) => {
               return (
                 <React.Fragment key={i}>
                   {line}
@@ -99,10 +115,10 @@ const MainCard = ({ article }) => {
               );
             })}
           </Content>
-          <Comment onClick={() => handleDetailPost(article.id)}>
-            댓글 {article.commentCnt}개 모두보기
+          <Comment onClick={() => handleDetailPost(id)}>
+            댓글 {commentCnt}개 모두보기
           </Comment>
-          <UploadTime>{article.timeMsg}</UploadTime>
+          <UploadTime>{timeMsg}</UploadTime>
         </Contents>
       </CardFooter>
 

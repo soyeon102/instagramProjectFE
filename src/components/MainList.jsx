@@ -13,17 +13,15 @@ const MainList = () => {
   const navigate = useNavigate();
   const articles = useSelector((state) => state.article.articles);
 
+  console.log(articles);
   const { isLoading } = useSelector((state) => state.article);
-
-  // console.log(articles);
 
   useEffect(() => {
     dispatch(__readArticles());
+    if (articles.code === '1005' || articles.code === '1003') {
+      return navigate('/login');
+    }
   }, [dispatch]);
-
-  // if (isLoading) {
-  //   return <div>로딩 중...</div>;
-  // }
 
   return (
     <ListContainer>

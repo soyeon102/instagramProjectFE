@@ -35,14 +35,21 @@ export const __signupUser = createAsyncThunk(
 );
 
 const initialState = {
-  user: {},
+  user: '',
+  isLogin: false,
   error: null,
 };
 
 export const userSlice = createSlice({
   name: 'users',
   initialState,
-  reducers: {},
+  reducers: {
+    getUser: (state, action) =>
+      (action.payload = {
+        user: getCookie('nickname'),
+        isLogin: getCookie('ACCESS_TOKEN') ? true : false,
+      }),
+  },
   extraReducers: {
     [__loginUser.pending]: (state) => {
       state.isLoading = true;
@@ -81,4 +88,5 @@ export const userSlice = createSlice({
   },
 });
 
+export const { getUser } = userSlice.actions;
 export default userSlice.reducer;

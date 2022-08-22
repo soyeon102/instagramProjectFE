@@ -66,26 +66,6 @@ export const __readOneArticle = createAsyncThunk(
   }
 );
 
-export const __updateArticles = createAsyncThunk(
-  'updateTodos',
-  async (payload, thunkAPI) => {
-    try {
-      await axios.patch(
-        `http://localhost:3001/articles/${payload.id}`,
-        config,
-        {
-          content: payload.content,
-        }
-      );
-
-      console.log('페이로드~~!@!@!@!!!@!@!@', payload);
-      return thunkAPI.fulfillWithValue(payload);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
-
 // 삭제
 export const __deleteArticles = createAsyncThunk(
   'deleteArticles',
@@ -95,7 +75,27 @@ export const __deleteArticles = createAsyncThunk(
         `${BASE_URL}/api/auth/article/${payload}`,
         config
       );
-      // console.log('페이로드!!!!', payload);
+      return thunkAPI.fulfillWithValue(data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+// 좋아요
+export const __likeArticle = createAsyncThunk(
+  'likeArticle',
+  async (payload, thunkAPI) => {
+    try {
+      // 기존 방식으로 접근 불가능. payload에 hearder가 담기는 문제 발생
+      const data = await axios({
+        method: 'post',
+        url: `${BASE_URL}/api/auth/heart/${payload}`,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: getCookie('ACCESS_TOKEN'),
+        },
+      });
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -154,23 +154,6 @@ export const articleSlice = createSlice({
       state.error = action.payload;
     },
 
-    [__updateArticles.pending]: (state) => {
-      state.isLoading = true;
-    },
-    [__updateArticles.fulfilled]: (state, { payload }) => {
-      // console.log(payload);
-      state.isLoading = false;
-      state.articles = state.articles.map((article) =>
-        article.id === payload.id
-          ? { ...article, content: payload.content }
-          : article
-      );
-    },
-    [__updateArticles.rejected]: (state, { payload }) => {
-      state.isLoading = false;
-      state.error = payload;
-    },
-
     // 삭제
     [__deleteArticles.pending]: (state) => {
       state.isLoading = true;
@@ -180,9 +163,21 @@ export const articleSlice = createSlice({
       state.articles = state.articles.filter(
         (article) => article.id !== action.payload
       );
-      console.log('왜안돼ㅜㅜㅠㅠㅠㅠ', action);
     },
     [__deleteArticles.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+
+    // 좋아요
+    [__likeArticle.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__likeArticle.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.articles = action.payload;
+    },
+    [__likeArticle.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
