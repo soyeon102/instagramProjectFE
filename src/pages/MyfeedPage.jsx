@@ -9,7 +9,7 @@ const MyfeedPage = () => {
       <Nav />
       <Layout>
         <MyfeedProfile />
-        <MyfeedList />;{/* <NewPost /> */}
+        <MyfeedList />
       </Layout>
     </>
   );

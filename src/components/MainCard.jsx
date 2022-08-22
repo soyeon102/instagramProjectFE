@@ -37,22 +37,20 @@ const MainCard = ({ article }) => {
     imgList,
   } = article;
 
-  console.log('MainCard article!!', article);
-
   const handleLikeButton = () => {
     dispatch(__likeArticle(id));
+    dispatch(__readArticles());
   };
 
   const handleDetailPost = (id) => {
     setIsDetail(true);
     setArticleId(id);
-
-    document.body.style.overflow = 'hidden';
   };
 
   const handleModalClose = () => {
     setIsDetail(false);
     document.body.style.overflow = 'unset';
+    dispatch(__readArticles());
   };
 
   useEffect(() => {
@@ -105,7 +103,7 @@ const MainCard = ({ article }) => {
         <Contents>
           <LikeNum>좋아요 {heartCnt}개</LikeNum>
           <Content>
-            <span>{nickname}</span>{' '}
+            <span>{nickname}</span>
             {content.split('\n').map((line, i) => {
               return (
                 <React.Fragment key={i}>

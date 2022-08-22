@@ -14,27 +14,29 @@ const Router = () => {
   const { isLogin } = useSelector((state) => state.user);
 
   useEffect(() => {
-    dispatch(getUser());
+    // dispatch(getUser());
+    getCookie('ACCESS_TOKEN');
+    console.log('토큰 가져와!', getCookie('ACCESS_TOKEN'));
   }, [dispatch]);
-
-  console.log('로그인', isLogin);
 
   return (
     <BrowserRouter>
       <Routes>
         {/* 로그인 후 홈으로 접근 불가능 */}
-        {/* <Route
+        <Route
           path='/'
           element={isLogin ? <Home /> : <Navigate to='/login' />}
-        /> */}
-        <Route path='/' element={<Home />} />
+        />
+        {/* <Route path='/' element={<Home />} /> */}
         <Route
           path='/myfeed'
           element={isLogin ? <MyfeedPage /> : <Navigate to='/login' />}
         />
-        <Route path='/' element={<Home />} />
         <Route path='/signup' element={<SignupPage />} />
-        <Route path='/login' element={<LoginPage />} />
+        <Route
+          path='/login'
+          element={isLogin ? <Navigate to='/' /> : <LoginPage />}
+        />
       </Routes>
     </BrowserRouter>
   );

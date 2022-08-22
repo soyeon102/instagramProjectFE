@@ -12,9 +12,15 @@ const CardDetail = ({ articleId }) => {
 
   const article = useSelector((state) => state.article.detail);
 
+  const { isLoading } = useSelector((state) => state.article);
+
   useEffect(() => {
     dispatch(__readOneArticle(articleId));
   }, [dispatch]);
+
+  if (isLoading) {
+    return <div>로딩중...</div>;
+  }
 
   return (
     Object.keys(article).length !== 0 && (

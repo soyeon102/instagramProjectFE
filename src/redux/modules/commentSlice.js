@@ -51,43 +51,6 @@ export const commentSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-    // 전체 조회
-    // [__readArticles.pending]: (state) => {
-    //   state.isLoading = true;
-    // },
-    // [__readArticles.fulfilled]: (state, action) => {
-    //   state.isLoading = false;
-    //   state.articles = action.payload;
-    // },
-    // [__readArticles.rejected]: (state, action) => {
-    //   state.error = action.payload;
-    // },
-    // 상세 조회
-    // [__readOneArticle.pending]: (state) => {
-    //   state.isLoading = true;
-    // },
-    // [__readOneArticle.fulfilled]: (state, action) => {
-    //   state.isLoading = false;
-    //   state.detail = action.payload;
-    // },
-    // [__readOneArticle.rejected]: (state, action) => {
-    //   state.isLoading = false;
-    //   state.error = action.payload;
-    // },
-    // 삭제
-    // [__deleteArticles.pending]: (state) => {
-    //   state.isLoading = true;
-    // },
-    // [__deleteArticles.fulfilled]: (state, action) => {
-    //   state.isLoading = false;
-    //   state.articles = state.articles.filter(
-    //     (article) => article.id !== action.payload
-    //   );
-    // },
-    // [__deleteArticles.rejected]: (state, action) => {
-    //   state.isLoading = false;
-    //   state.error = action.payload;
-    // },
   },
 });
 

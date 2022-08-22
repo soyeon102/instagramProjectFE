@@ -1,9 +1,11 @@
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-const MyfeedCard = ({ feed }) => {
+const MyfeedCard = ({ article, handleMyCardClick }) => {
   return (
-    <StCardBox>
-      <img src={feed.imgUrl} alt='내 게시물 이미지' />
+    <StCardBox onClick={handleMyCardClick}>
+      <img src={article.imgUrl} alt='내 게시물 이미지' />
     </StCardBox>
   );
 };

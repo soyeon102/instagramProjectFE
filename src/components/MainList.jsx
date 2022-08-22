@@ -13,7 +13,7 @@ const MainList = () => {
   const navigate = useNavigate();
   const articles = useSelector((state) => state.article.articles);
 
-  console.log(articles);
+  // console.log(articles);
   const { isLoading } = useSelector((state) => state.article);
 
   useEffect(() => {

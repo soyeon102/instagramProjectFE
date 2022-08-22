@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper';
 import { useDropzone } from 'react-dropzone';
@@ -64,6 +64,10 @@ const NewPost = ({ modalClose }) => {
 
   useEffect(() => {
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
+  }, []);
+
+  useEffect(() => {
+    getCookie('ACCESS_TOKEN');
   }, []);
 
   return (

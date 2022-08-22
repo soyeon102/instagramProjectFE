@@ -10,11 +10,12 @@ import { ReactComponent as IconEmoji } from '../assets/icon/icon-emoji.svg';
 import { colors } from '../theme/theme';
 import defaultImg from '../assets/img/img-profile.jpg';
 import CommentList from './CommentList';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   __likeArticle,
   __readOneArticle,
   __deleteArticles,
+  __readArticles,
 } from '../redux/modules/articleSlice';
 import { __createComment } from '../redux/modules/commentSlice';
 import { getCookie } from '../shared/Cookie';
@@ -36,6 +37,8 @@ const CardContents = ({ oneArticle }) => {
     heartCnt,
   } = oneArticle;
 
+  const { isLoading } = useSelector((state) => state.article);
+
   const handleLikeButton = () => {
     dispatch(__likeArticle(id));
   };
@@ -43,14 +46,18 @@ const CardContents = ({ oneArticle }) => {
   const handleAddComment = async () => {
     await dispatch(__createComment({ id: id, content: commentVal }));
     await dispatch(__readOneArticle(id));
+    await dispatch(__readArticles());
+
     setCommentVal('');
   };
-
-  useEffect(() => {});
 
   const onClickDeleteHandler = (id) => {
     dispatch(__deleteArticles(id));
   };
+
+  if (isLoading) {
+    return <div>로딩중...</div>;
+  }
 
   return (
     <BoardContainer>
@@ -66,11 +73,12 @@ const CardContents = ({ oneArticle }) => {
             </UserImg>
             <UserName>{nickname}</UserName>
           </UserProfile>
-          <IconContainer>
-            {nick === nickname && (
+
+          {nick === nickname && (
+            <IconContainer>
               <IconRemove onClick={() => onClickDeleteHandler(id)} />
-            )}
-          </IconContainer>
+            </IconContainer>
+          )}
         </BoardHeader>
 
         <BoardBody>
