@@ -115,6 +115,7 @@ export const articleSlice = createSlice({
       state.articles = action.payload;
     },
     [__readArticles.rejected]: (state, action) => {
+      state.isLoading = false;
       state.error = action.payload;
     },
 

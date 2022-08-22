@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper';
 import Modal from '../components/Modal';
@@ -12,43 +12,36 @@ import defaultImg from '../assets/img/img-profile.jpg';
 import styled from 'styled-components';
 import icons from '../assets/img/icons.png';
 import { colors } from '../theme/theme';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  __readArticles,
+  __readOneArticle,
+} from '../redux/modules/articleSlice';
 
 const MainCard = ({ article }) => {
-  const [isLike, setIsLike] = useState(false);
-  const [isCreate, setIsCreate] = useState(false);
+  const dispatch = useDispatch();
 
-  const handleAddPost = () => {
-    setIsCreate(true);
+  const [articleId, setArticleId] = useState(0);
+  // const oneArticle = useSelector((state) => state.article.detail);
+
+  const [isLike, setIsLike] = useState(false);
+  const [isDetail, setIsDetail] = useState(false);
+
+  const handleDetailPost = (id) => {
+    setIsDetail(true);
+    setArticleId(id);
+
     document.body.style.overflow = 'hidden';
   };
 
   const handleModalClose = () => {
-    setIsCreate(false);
+    setIsDetail(false);
     document.body.style.overflow = 'unset';
   };
 
-  const datas = [
-    {
-      id: 1,
-      imgUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3l92E93XkhMDBXWDzuDLimxu4EcOpihu_GQ&usqp=CAU',
-    },
-    {
-      id: 2,
-      imgUrl:
-        'https://i1.sndcdn.com/artworks-Z5SLEGyINrvdjrkz-CQbgFA-t500x500.jpg',
-    },
-    {
-      id: 3,
-      imgUrl:
-        'https://i1.sndcdn.com/artworks-gVzXNjKiMNdDcdml-QsFSgA-t500x500.jpg',
-    },
-    {
-      id: 4,
-      imgUrl:
-        'https://www.newsquest.co.kr/news/photo/202205/96478_80014_5020.jpeg',
-    },
-  ];
+  useEffect(() => {
+    dispatch(__readArticles());
+  }, [dispatch]);
 
   return (
     <CardContainer>
@@ -72,9 +65,9 @@ const MainCard = ({ article }) => {
             modules={[Pagination, Navigation]}
             style={{ width: '100%' }}
           >
-            {datas.map((data) => (
-              <SwiperSlide key={data.id}>
-                <UploadImage src={data.imgUrl} alt='업로드 이미지' />
+            {article.imgList.map((img) => (
+              <SwiperSlide key={img.id}>
+                <UploadImage src={img.imgUrl} alt='업로드 이미지' />
               </SwiperSlide>
             ))}
           </Swiper>
@@ -94,7 +87,7 @@ const MainCard = ({ article }) => {
           </IconContainer>
         </Icons>
         <Contents>
-          <LikeNum>좋아요{article.heartCnt}개</LikeNum>
+          <LikeNum>좋아요 {article.heartCnt}개</LikeNum>
           <Content>
             <span>{article.nickname}</span>{' '}
             {article.content.split('\n').map((line, i) => {
@@ -106,7 +99,7 @@ const MainCard = ({ article }) => {
               );
             })}
           </Content>
-          <Comment onClick={() => handleAddPost(article.id)}>
+          <Comment onClick={() => handleDetailPost(article.id)}>
             댓글 {article.commentCnt}개 모두보기
           </Comment>
           <UploadTime>{article.timeMsg}</UploadTime>
@@ -114,9 +107,9 @@ const MainCard = ({ article }) => {
       </CardFooter>
 
       {/* 상세 모달 */}
-      {isCreate && (
+      {isDetail && (
         <Modal modalClose={handleModalClose}>
-          <CardDetail article={article.id} />
+          <CardDetail articleId={articleId} />
         </Modal>
       )}
     </CardContainer>
