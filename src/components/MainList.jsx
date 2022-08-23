@@ -51,10 +51,6 @@ const MainList = () => {
 
   return (
     <ListContainer>
-      {/* {articles?.map((article) => (
-        <MainCard key={article.id} article={article} />
-      ))} */}
-
       {list?.map((card, i) => (
         <MainCard key={i} article={card} />
       ))}
