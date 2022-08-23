@@ -6,6 +6,7 @@ import CardContents from './CardContents';
 import { useDispatch, useSelector } from 'react-redux';
 import { __readOneArticle } from '../redux/modules/articleSlice';
 import { useEffect } from 'react';
+import Loading from './Loading';
 
 const CardDetail = ({ articleId }) => {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ const CardDetail = ({ articleId }) => {
   }, [dispatch]);
 
   if (isLoading) {
-    return <div>로딩중...</div>;
+    return <Loading />;
   }
 
   return (
