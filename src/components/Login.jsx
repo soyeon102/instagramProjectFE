@@ -30,7 +30,8 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     dispatch(__loginUser(loginVal));
-    // console.log('로그인 컴포넌트 로그인', isLogin);
+    dispatch(getUser());
+    console.log('로그인 컴포넌트 로그인', isLogin);
     isLogin && navigate('/');
   };
 

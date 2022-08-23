@@ -23,11 +23,11 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         {/* 로그인 후 홈으로 접근 불가능 */}
-        <Route
+        {/* <Route
           path='/'
           element={isLogin ? <Home /> : <Navigate to='/login' />}
-        />
-        {/* <Route path='/' element={<Home />} /> */}
+        /> */}
+        <Route path='/' element={<Home />} />
         <Route
           path='/myfeed'
           element={isLogin ? <MyfeedPage /> : <Navigate to='/login' />}
