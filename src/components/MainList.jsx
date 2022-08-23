@@ -16,7 +16,8 @@ const MainList = () => {
   const navigate = useNavigate();
   // const articles = useSelector((state) => state.article.articles);
 
-  const [pageNum, setPageNum] = useState(1);
+  // const size = 40;
+  const [pageNum, setPageNum] = useState(0);
   const { list, hasMore, isLoading } = useFetch(pageNum);
   const observerRef = useRef();
 
