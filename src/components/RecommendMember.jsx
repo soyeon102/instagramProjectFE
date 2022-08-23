@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import defaultImg from '../assets/img/img-profile.jpg';
 import { getUser } from '../redux/modules/userSlice';
@@ -7,6 +8,7 @@ import { getCookie } from '../shared/Cookie';
 import { colors } from '../theme/theme';
 
 const RecommendMember = () => {
+  const navigate = useNavigate();
   const [nick, setNick] = useState('');
 
   useEffect(() => {
@@ -20,7 +22,7 @@ const RecommendMember = () => {
           <MyProfileContainer>
             <img src={defaultImg} alt='프로필 사진' />
           </MyProfileContainer>
-          <StText black fwNormal>
+          <StText black fwNormal onClick={() => navigate('/myfeed')}>
             {nick}
           </StText>
         </StMyName>
