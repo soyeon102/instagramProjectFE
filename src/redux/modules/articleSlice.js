@@ -40,10 +40,13 @@ export const __readArticles = createAsyncThunk(
   'readArticles',
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.get(`${BASE_URL}/api/auth/article`, config);
-      return thunkAPI.fulfillWithValue(data.data);
-    } catch (e) {
-      return thunkAPI.rejectWithValue(e);
+      const data = await axios.get(
+        `${BASE_URL}/api/auth/article?size=10&page=${payload}`,
+        config
+      );
+      return thunkAPI.fulfillWithValue(data.data.content);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
     }
   }
 );
@@ -104,6 +107,7 @@ export const __likeArticle = createAsyncThunk(
 const initialState = {
   articles: [],
   detail: {},
+  res: {},
   isLoading: false,
   error: null,
 };

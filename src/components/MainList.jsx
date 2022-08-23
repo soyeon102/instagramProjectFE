@@ -2,61 +2,61 @@ import axios from 'axios';
 import MainCard from './MainCard';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { useCallback, useRef, useState, useEffect } from 'react';
-import {
-  __readArticles,
-  __readOneArticle,
-} from '../redux/modules/articleSlice';
+import { useRef, useState, useEffect } from 'react';
+import { __readArticles } from '../redux/modules/articleSlice';
 import { useNavigate } from 'react-router-dom';
-import useFetch from '../hooks/useFetch';
+
 import Loading from './Loading';
+import useIntersectObserver from '../hooks/useIntersectObserver';
 
 const MainList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const articles = useSelector((state) => state.article.articles);
 
-  // const size = 40;
-  const [pageNum, setPageNum] = useState(0);
-  const { list, hasMore, isLoading } = useFetch(pageNum);
-  const observerRef = useRef();
+  const [page, setPage] = useState(0);
 
-  // console.log(articles);
-  // const { isLoading } = useSelector((state) => state.article);
+  const { isLoading, error, articles } = useSelector((state) => state.article);
 
-  const observer = (node) => {
-    if (isLoading) return;
-    if (observerRef.current) observerRef.current.disconnect();
+  const [dataList, setDataList] = useState(articles);
 
-    observerRef.current = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && hasMore) {
-          setPageNum((page) => page + 1);
-        }
-      },
-      { threshold: 0.5 }
-    );
+  const intersectRef = useRef(null);
+  const { isIntersect } = useIntersectObserver(intersectRef, {
+    rootMargin: '0px',
+    threshold: 0.6,
+  });
 
-    node && observerRef.current.observe(node);
+  const [isLastPage, setIsLastPage] = useState(false);
+
+  const loadMoreData = async () => {
+    if (isIntersect) {
+      if (articles.length === 0) {
+        setIsLastPage(true);
+      } else {
+        setDataList([...dataList, ...articles]);
+        setPage((prev) => prev + 1);
+      }
+    }
+    dispatch(__readArticles(page));
   };
 
-  // useEffect(() => {
-  //   dispatch(__readArticles());
-  //   if (articles.code === '1005' || articles.code === '1003') {
-  //     return navigate('/login');
-  //   }
-  // }, [dispatch]);
+  useEffect(() => {
+    loadMoreData();
+  }, [isIntersect, isLastPage]);
 
-  console.log('list!!!', list);
+  // if (isLoading) {
+  //   return <Loading />;
+  // }
+
+  console.log('page', page, 'articles!!!', articles);
 
   return (
     <ListContainer>
-      {list?.map((card, i) => (
+      {dataList?.map((card, i) => (
         <MainCard key={i} article={card} />
       ))}
 
-      <div ref={observer} />
-      <>{isLoading && <Loading />}</>
+      <div ref={intersectRef}>{!isLastPage && <Loading />}</div>
+      {/* {!isLastPage && <div ref={intersectRef}>{isLoading && <Loading />}</div>} */}
     </ListContainer>
   );
 };
