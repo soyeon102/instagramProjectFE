@@ -60,6 +60,7 @@ const NewPost = ({ modalClose }) => {
 
     dispatch(__createArticles(formData));
     modalClose();
+    window.scrollTo(0, 0);
   };
 
   useEffect(() => {

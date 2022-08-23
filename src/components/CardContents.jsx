@@ -20,7 +20,7 @@ import {
 import { __createComment } from '../redux/modules/commentSlice';
 import { getCookie } from '../shared/Cookie';
 
-const CardContents = ({ oneArticle }) => {
+const CardContents = ({ oneArticle, modalClose }) => {
   const dispatch = useDispatch();
   const [commentVal, setCommentVal] = useState('');
 
@@ -53,11 +53,12 @@ const CardContents = ({ oneArticle }) => {
 
   const onClickDeleteHandler = (id) => {
     dispatch(__deleteArticles(id));
+    modalClose();
   };
 
-  if (isLoading) {
-    return <div>로딩중...</div>;
-  }
+  // if (isLoading) {
+  //   return <div>로딩중...</div>;
+  // }
 
   return (
     <BoardContainer>
@@ -92,7 +93,7 @@ const CardContents = ({ oneArticle }) => {
             </UserImg>
             <UserPost>
               <Content>
-                <span>{nickname}</span>
+                <span>{nickname} </span>
                 {content}
               </Content>
               <UploadTime>{timeMsg}</UploadTime>

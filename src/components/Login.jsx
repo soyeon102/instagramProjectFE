@@ -30,8 +30,9 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     dispatch(__loginUser(loginVal));
-    dispatch(getUser());
-    console.log('로그인 컴포넌트 로그인', isLogin);
+
+    await dispatch(getUser());
+    console.log('로그인 컴포넌트 버튼 클릭 후 dispatch 로그인', isLogin);
     isLogin && navigate('/');
   };
 
@@ -44,7 +45,7 @@ const Login = () => {
   }, [loginVal]);
 
   useEffect(() => {
-    console.log('로그인 컴포넌트 로그인', isLogin);
+    console.log('로그인 컴포넌트 useEffect 로그인', isLogin);
   }, [isLogin]);
 
   return (

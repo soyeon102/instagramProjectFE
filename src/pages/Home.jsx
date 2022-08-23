@@ -5,8 +5,9 @@ import styled from 'styled-components';
 import Modal from '../components/Modal';
 import CardDetail from '../components/CardDetail';
 import NewPost from '../components/NewPost';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { getCookie } from '../shared/Cookie';
 
 const Home = () => {
   const [isCreate, setIsCreate] = useState(false);
@@ -20,6 +21,10 @@ const Home = () => {
     setIsCreate(false);
     document.body.style.overflow = 'unset';
   };
+
+  useEffect(() => {
+    getCookie('ACCESS_TOKEN');
+  }, []);
 
   return (
     <>

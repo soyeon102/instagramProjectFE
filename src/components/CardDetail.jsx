@@ -8,7 +8,7 @@ import { __readOneArticle } from '../redux/modules/articleSlice';
 import { useEffect } from 'react';
 import Loading from './Loading';
 
-const CardDetail = ({ articleId }) => {
+const CardDetail = ({ articleId, modalClose }) => {
   const dispatch = useDispatch();
 
   const article = useSelector((state) => state.article.detail);
@@ -19,9 +19,9 @@ const CardDetail = ({ articleId }) => {
     dispatch(__readOneArticle(articleId));
   }, [dispatch]);
 
-  if (isLoading) {
-    return <Loading />;
-  }
+  // if (isLoading) {
+  //   return <Loading />;
+  // }
 
   return (
     Object.keys(article).length !== 0 && (
@@ -40,7 +40,7 @@ const CardDetail = ({ articleId }) => {
             ))}
           </Swiper>
         </ImgContainer>
-        <CardContents oneArticle={article} />
+        <CardContents oneArticle={article} modalClose={modalClose} />
       </DetailContainer>
     )
   );
