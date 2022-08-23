@@ -45,6 +45,7 @@ const MainCard = ({ article }) => {
   const handleDetailPost = (id) => {
     setIsDetail(true);
     setArticleId(id);
+    document.body.style.overflow = 'hidden';
   };
 
   const handleModalClose = () => {
@@ -94,7 +95,7 @@ const MainCard = ({ article }) => {
             {like ? <IconHeart /> : <IconEmptyHeart />}
           </IconContainer>
           <IconContainer>
-            <IconComment />
+            <IconComment onClick={() => handleDetailPost(id)} />
           </IconContainer>
           <IconContainer>
             <IconShare />
@@ -103,7 +104,7 @@ const MainCard = ({ article }) => {
         <Contents>
           <LikeNum>좋아요 {heartCnt}개</LikeNum>
           <Content>
-            <span>{nickname}</span>
+            <span>{nickname} </span>
             {content.split('\n').map((line, i) => {
               return (
                 <React.Fragment key={i}>
@@ -123,7 +124,7 @@ const MainCard = ({ article }) => {
       {/* 상세 모달 */}
       {isDetail && (
         <Modal modalClose={handleModalClose}>
-          <CardDetail articleId={articleId} />
+          <CardDetail articleId={articleId} modalClose={handleModalClose} />
         </Modal>
       )}
     </CardContainer>

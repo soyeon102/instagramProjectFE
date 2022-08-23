@@ -3,9 +3,12 @@ import axios from 'axios';
 import { getCookie, setCookie } from '../../shared/Cookie';
 import { BASE_URL } from '../../shared/api';
 
+const token = getCookie('ACCESS_TOKEN');
+
 const config = {
   headers: {
-    Authorization: getCookie('ACCESS_TOKEN'),
+    'Content-Type': 'application/json',
+    Authorization: token,
   },
 };
 
@@ -13,10 +16,16 @@ export const __loginUser = createAsyncThunk(
   'LOGIN_USER',
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.post(`${BASE_URL}/api/member/login`, payload);
+      const data = await axios.post(
+        `${BASE_URL}/api/member/login`,
+        payload,
+        config
+      );
+      const { accessToken } = data.headers.authorization;
+      axios.defaults.headers.common['Authorization'] = accessToken;
       setCookie('ACCESS_TOKEN', data.headers.authorization);
       setCookie('nickname', data.data);
-      getCookie('ACCESS_TOKEN');
+      console.log('로그인 후 data!!!', data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.errorMessage);
@@ -46,8 +55,9 @@ export const userSlice = createSlice({
     },
     [__loginUser.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.user = action.payload;
+      state.user = getCookie('nickname');
       state.isLogin = getCookie('ACCESS_TOKEN') ? true : false;
+      console.log('__loginUser 의 state.isLogin', state.isLogin);
     },
     [__loginUser.rejected]: (state, action) => {
       state.isLoading = false;
