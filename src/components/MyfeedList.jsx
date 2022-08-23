@@ -9,7 +9,6 @@ import {
   __readMyArticles,
   __readMyLikerticles,
 } from '../redux/modules/myArticleSlice';
-import { __readOneArticle } from '../redux/modules/articleSlice';
 
 const MyfeedList = () => {
   const dispatch = useDispatch();

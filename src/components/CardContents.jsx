@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as IconMore } from '../assets/icon/icon-more.svg';
 import { ReactComponent as IconRemove } from '../assets/icon/icon-remove.svg';
@@ -293,6 +293,3 @@ const UploadComment = styled.div`
 const Emoji = styled(IconEmoji)`
   margin-right: 16px;
 `;
-
-const StTextArea = styled.textarea``;
-const StText = styled.div``;
