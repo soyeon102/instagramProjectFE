@@ -2,7 +2,7 @@ import axios from 'axios';
 import MainCard from './MainCard';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   __createArticles,
   __readArticles,
@@ -46,6 +46,8 @@ const MainList = () => {
   //     navigate('/login');
   //   }
   // }, []);
+
+  console.log('articles@@@@@@', articles);
 
   useEffect(() => {
     dispatch(__readArticles(pageNum));

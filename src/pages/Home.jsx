@@ -6,7 +6,7 @@ import Modal from '../components/Modal';
 import CardDetail from '../components/CardDetail';
 import NewPost from '../components/NewPost';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getCookie } from '../shared/Cookie';
 
 const Home = () => {

@@ -71,6 +71,7 @@ export const __readOneArticle = createAsyncThunk(
           Authorization: getCookie('ACCESS_TOKEN'),
         },
       });
+      console.log('상세 조회 data.data', data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (e) {
       return thunkAPI.rejectWithValue(e.code);
@@ -111,6 +112,7 @@ export const __likeArticle = createAsyncThunk(
           Authorization: getCookie('ACCESS_TOKEN'),
         },
       });
+      console.log('좋아요 data.data', data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -129,7 +131,7 @@ export const articleSlice = createSlice({
     },
     [__createArticles.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.articles = [...state.articles, action.payload];
+      state.articles = [action.payload, ...state.articles];
     },
     [__createArticles.rejected]: (state, action) => {
       state.isLoading = false;
@@ -189,6 +191,8 @@ export const articleSlice = createSlice({
         heartCnt: action.payload.heartCnt,
         like: action.payload.like,
       };
+      // state.articles =
+      // console.log('좋아요 action.payload', action.payload);
     },
     [__likeArticle.rejected]: (state, action) => {
       state.isLoading = false;
