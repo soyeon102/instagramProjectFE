@@ -39,7 +39,7 @@ const MainCard = ({ article }) => {
 
   const handleLikeButton = () => {
     dispatch(__likeArticle(id));
-    dispatch(__readArticles());
+    // dispatch(__readArticles());
   };
 
   const handleDetailPost = (id) => {
@@ -54,9 +54,9 @@ const MainCard = ({ article }) => {
     dispatch(__readArticles());
   };
 
-  useEffect(() => {
-    dispatch(__readArticles());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(__readArticles());
+  // }, [dispatch]);
 
   return (
     <CardContainer>
