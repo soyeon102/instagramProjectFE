@@ -39,6 +39,8 @@ const MainCard = ({ article }) => {
 
   const handleLikeButton = () => {
     dispatch(__likeArticle(id));
+
+    console.log('idㄹ와 like 상태!!!!!', like, id);
     // dispatch(__readArticles());
   };
 
@@ -51,11 +53,11 @@ const MainCard = ({ article }) => {
   const handleModalClose = () => {
     setIsDetail(false);
     document.body.style.overflow = 'unset';
-    dispatch(__readArticles());
+    dispatch(__readArticles(id));
   };
 
   // useEffect(() => {
-  //   dispatch(__readArticles());
+  //   dispatch(__readOneArticle());
   // }, [dispatch]);
 
   return (

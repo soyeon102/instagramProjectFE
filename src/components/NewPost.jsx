@@ -9,7 +9,6 @@ import { ReactComponent as IconMedia } from '../assets/icon/icon-media.svg';
 import defaultImg from '../assets/img/img-profile.jpg';
 import { colors } from '../theme/theme';
 import icons from '../assets/img/icons.png';
-import MySwiperSlide from './MySwiperSlide';
 import { useDispatch } from 'react-redux';
 import { __createArticles } from '../redux/modules/articleSlice';
 import { getCookie } from '../shared/Cookie';
