@@ -2,7 +2,7 @@ import axios from 'axios';
 import MainCard from './MainCard';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   __createArticles,
   __readArticles,
