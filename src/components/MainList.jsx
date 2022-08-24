@@ -17,16 +17,26 @@ const MainList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { isLoading, error, articles } = useSelector((state) => state.article);
+  const { isLoading, error, articles, hasMore } = useSelector(
+    (state) => state.article
+  );
 
-  const [items, setItems] = useState([]);
-  const [target, setTarget] = useState(null);
-  const [page, setPage] = useState(0);
+  const [pageNum, setPageNum] = useState(0);
+  const observerRef = useRef();
 
-  // useEffect(() => {
-  //   dispatch(getUser());
-  //   dispatch(__readArticles(page));
-  // }, [dispatch]);
+  const observer = (node) => {
+    if (isLoading) return;
+    if (observerRef.current) observerRef.current.disconnect();
+    observerRef.current = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && hasMore) {
+          setPageNum((page) => page + 1);
+        }
+      },
+      { threshold: 0.5 }
+    );
+    node && observerRef.current.observe(node);
+  };
 
   // useEffect(() => {
   //   if (articles.code === '1003' || articles.code === '1005') {
@@ -37,21 +47,9 @@ const MainList = () => {
   //   }
   // }, []);
 
-  // useEffect(() => {
-  //   let observer;
-  //   if (target) {
-  //     observer = new IntersectionObserver();
-  //     observer.observe(target);
-  //   }
-  // }, [target]);
-
-  // const onIntersect = async ([entry], observer) => {
-  //   if (entry.isIntersecting) {
-  //     observer.unobserve(entry.target);
-  //     await dispatch(__readArticles())
-  //     observer.observe(entry.target);
-  //   }
-  // };
+  useEffect(() => {
+    dispatch(__readArticles(pageNum));
+  }, [dispatch, pageNum]);
 
   return (
     <ListContainer>
@@ -59,20 +57,8 @@ const MainList = () => {
         <MainCard key={i} article={card} />
       ))}
 
-      {/* <div ref={target}>{!isLastPage && <Loading />}</div> */}
-      {/* {!isLastPage && <div ref={intersectRef}>{isLoading && <Loading />}</div>} */}
-
-      {/* <InfinityScroll
-        callNext={() => {          
-          dispatch(__readArticles(page));
-        }}
-        is_next={paging.page ? true : false}
-        loading={is_loading}
-      >
-        {postlist.map((p, idx) => {
-          return <Post key={idx} {...p} />;
-        })}
-      </InfinityScroll> */}
+      <div ref={observer} />
+      <>{isLoading && <Loading />}</>
     </ListContainer>
   );
 };

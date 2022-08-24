@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { isCompositeComponent } from 'react-dom/test-utils';
 import { getCookie, setCookie } from '../../shared/Cookie';
 
 const BASE_URL = 'http://13.209.97.60';
@@ -8,6 +9,7 @@ const initialState = {
   articles: [],
   detail: {},
   page: 0,
+  hasMore: false,
   isLoading: false,
   error: null,
 };
@@ -140,7 +142,8 @@ export const articleSlice = createSlice({
     },
     [__readArticles.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.articles = action.payload;
+      state.articles = [...state.articles, ...action.payload];
+      state.hasMore = action.payload.length > 0;
     },
     [__readArticles.rejected]: (state, action) => {
       state.isLoading = false;
