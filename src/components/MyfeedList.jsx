@@ -9,9 +9,14 @@ import {
   __readMyArticles,
   __readMyLikerticles,
 } from '../redux/modules/myArticleSlice';
+import { __readOneArticle } from '../redux/modules/articleSlice';
+import { removeCookie } from '../shared/Cookie';
+import { getUser } from '../redux/modules/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 const MyfeedList = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [category, setCategory] = useState('myarticle');
   const [isSelect, setIsSelect] = useState(true);
@@ -41,9 +46,19 @@ const MyfeedList = () => {
   };
 
   useEffect(() => {
+    dispatch(getUser());
     dispatch(__readMyArticles());
     dispatch(__readMyLikerticles());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (myArticles.code === '1003' || myArticles.code === '1005') {
+      alert('다시 로그인해주세요');
+      removeCookie('ACCESS_TOKEN');
+      removeCookie('nickname');
+      return navigate('/login');
+    }
+  }, []);
 
   return (
     <StMyFeed>

@@ -16,11 +16,14 @@ export const __readMyArticles = createAsyncThunk(
   'readMyArticles',
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.get(
-        `${BASE_URL}/api/auth/mypage/myarticle`,
-        config
-      );
-
+      const data = await axios({
+        method: 'get',
+        url: `${BASE_URL}/api/auth/mypage/myarticle`,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: getCookie('ACCESS_TOKEN'),
+        },
+      });
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -33,11 +36,14 @@ export const __readMyLikerticles = createAsyncThunk(
   'readMyLikerticles',
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.get(
-        `${BASE_URL}/api/auth/mypage/myheart`,
-        config
-      );
-
+      const data = await axios({
+        method: 'get',
+        url: `${BASE_URL}/api/auth/mypage/myheart`,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: getCookie('ACCESS_TOKEN'),
+        },
+      });
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

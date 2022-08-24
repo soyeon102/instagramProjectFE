@@ -11,24 +11,47 @@ import { useNavigate } from 'react-router-dom';
 
 import Loading from './Loading';
 import { getUser } from '../redux/modules/userSlice';
+import { removeCookie } from '../shared/Cookie';
 
 const MainList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [page, setPage] = useState(0);
-
   const { isLoading, error, articles } = useSelector((state) => state.article);
 
-  // const [dataList, setDataList] = useState(articles);
+  const [items, setItems] = useState([]);
+  const [target, setTarget] = useState(null);
+  const [page, setPage] = useState(0);
 
-  useEffect(() => {
-    dispatch(__readArticles(page));
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getUser());
+  //   dispatch(__readArticles(page));
+  // }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(getUser());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   if (articles.code === '1003' || articles.code === '1005') {
+  //     alert('다시 로그인해주세요');
+  //     removeCookie('ACCESS_TOKEN');
+  //     removeCookie('nickname');
+  //     navigate('/login');
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   let observer;
+  //   if (target) {
+  //     observer = new IntersectionObserver();
+  //     observer.observe(target);
+  //   }
+  // }, [target]);
+
+  // const onIntersect = async ([entry], observer) => {
+  //   if (entry.isIntersecting) {
+  //     observer.unobserve(entry.target);
+  //     await dispatch(__readArticles())
+  //     observer.observe(entry.target);
+  //   }
+  // };
 
   return (
     <ListContainer>
@@ -36,7 +59,7 @@ const MainList = () => {
         <MainCard key={i} article={card} />
       ))}
 
-      {/* <div ref={intersectRef}>{!isLastPage && <Loading />}</div> */}
+      {/* <div ref={target}>{!isLastPage && <Loading />}</div> */}
       {/* {!isLastPage && <div ref={intersectRef}>{isLoading && <Loading />}</div>} */}
 
       {/* <InfinityScroll
