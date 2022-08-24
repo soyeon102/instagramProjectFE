@@ -4,6 +4,14 @@ import { getCookie, setCookie } from '../../shared/Cookie';
 
 const BASE_URL = 'http://13.209.97.60';
 
+const initialState = {
+  articles: [],
+  detail: {},
+  page: 0,
+  isLoading: false,
+  error: null,
+};
+
 // 생성
 export const __createArticles = createAsyncThunk(
   'createArticles',
@@ -108,14 +116,6 @@ export const __likeArticle = createAsyncThunk(
   }
 );
 
-const initialState = {
-  articles: [],
-  detail: {},
-  res: {},
-  isLoading: false,
-  error: null,
-};
-
 export const articleSlice = createSlice({
   name: 'article',
   initialState,
@@ -141,7 +141,6 @@ export const articleSlice = createSlice({
     [__readArticles.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.articles = action.payload;
-      console.log('action.payload 조회', action.payload);
     },
     [__readArticles.rejected]: (state, action) => {
       state.isLoading = false;

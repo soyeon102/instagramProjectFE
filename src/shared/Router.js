@@ -14,6 +14,8 @@ const Router = () => {
 
   const { isLogin } = useSelector((state) => state.user);
 
+  console.log('라우터 isLogin????????', isLogin);
+
   useEffect(() => {
     dispatch(getUser());
     // getCookie('ACCESS_TOKEN');
@@ -24,12 +26,10 @@ const Router = () => {
     <BrowserRouter>
       <ScrollToTop>
         <Routes>
-          {/* 로그인 후 홈으로 접근 불가능 */}
           <Route
             path='/'
             element={isLogin ? <Home /> : <Navigate to='/login' />}
           />
-          {/* <Route path='/' element={<Home />} /> */}
           <Route
             path='/myfeed'
             element={isLogin ? <MyfeedPage /> : <LoginPage />}
