@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as IconMore } from '../assets/icon/icon-more.svg';
 import { ReactComponent as IconRemove } from '../assets/icon/icon-remove.svg';
@@ -46,7 +46,7 @@ const CardContents = ({ oneArticle, modalClose }) => {
   const handleAddComment = async () => {
     await dispatch(__createComment({ id: id, content: commentVal }));
     await dispatch(__readOneArticle(id));
-    await dispatch(__readArticles());
+    // await dispatch(__readArticles());
 
     setCommentVal('');
   };
@@ -59,6 +59,10 @@ const CardContents = ({ oneArticle, modalClose }) => {
   // if (isLoading) {
   //   return <div>로딩중...</div>;
   // }
+
+  useEffect(() => {
+    dispatch(__readOneArticle(id));
+  }, [dispatch]);
 
   return (
     <BoardContainer>
@@ -197,6 +201,7 @@ const BoardBody = styled.div`
   max-height: 541px;
   overflow-y: scroll;
   padding: 16px;
+  word-break: break-word;
 
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */

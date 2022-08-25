@@ -4,23 +4,21 @@ import { getCookie, setCookie } from '../../shared/Cookie';
 
 const BASE_URL = 'http://13.209.97.60';
 
-const config = {
-  headers: {
-    'Content-Type': 'application/json',
-    Authorization: getCookie('ACCESS_TOKEN'),
-  },
-};
-
 // 생성
 export const __createComment = createAsyncThunk(
   'createComment',
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.post(
-        `${BASE_URL}/api/auth/comment/${payload.id}`,
-        payload.content,
-        config
-      );
+      const data = await axios({
+        method: 'post',
+        url: `${BASE_URL}/api/auth/comment/${payload.id}`,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: getCookie('ACCESS_TOKEN'),
+        },
+        data: payload.content,
+      });
+      console.log('comment 생성', data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

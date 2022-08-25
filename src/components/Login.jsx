@@ -32,7 +32,6 @@ const Login = () => {
     dispatch(__loginUser(loginVal));
 
     await dispatch(getUser());
-    console.log('로그인 컴포넌트 버튼 클릭 후 dispatch 로그인', isLogin);
     isLogin && navigate('/');
   };
 
@@ -43,10 +42,6 @@ const Login = () => {
       setDisabledBtn(true);
     }
   }, [loginVal]);
-
-  useEffect(() => {
-    console.log('로그인 컴포넌트 useEffect 로그인', isLogin);
-  }, [isLogin]);
 
   return (
     <LoginContainer>
