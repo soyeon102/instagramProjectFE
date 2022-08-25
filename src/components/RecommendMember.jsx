@@ -6,6 +6,7 @@ import defaultImg from '../assets/img/img-profile.jpg';
 import { getUser } from '../redux/modules/userSlice';
 import { getCookie } from '../shared/Cookie';
 import { colors } from '../theme/theme';
+import Member from './Member';
 
 const RecommendMember = () => {
   const navigate = useNavigate();
@@ -14,6 +15,21 @@ const RecommendMember = () => {
   useEffect(() => {
     setNick(getCookie('nickname'));
   }, []);
+
+  let data = [
+    {
+      id: 0,
+      name: 'soyeon',
+    },
+    {
+      id: 1,
+      name: 'junsu',
+    },
+    {
+      id: 2,
+      name: 'baeji',
+    },
+  ];
 
   return (
     <StRecommendMember>
@@ -31,35 +47,9 @@ const RecommendMember = () => {
 
       <StRecommendText>회원님을 위한 추천</StRecommendText>
 
-      <StRecommendBox>
-        <StRecommend>
-          <ProfileContainer>
-            <img src={defaultImg} alt='프로필 사진' />
-          </ProfileContainer>
-          <StText black>soyeon</StText>
-        </StRecommend>
-        <StText>팔로우</StText>
-      </StRecommendBox>
-
-      <StRecommendBox>
-        <StRecommend>
-          <ProfileContainer>
-            <img src={defaultImg} alt='프로필 사진' />
-          </ProfileContainer>
-          <StText black>junsu</StText>
-        </StRecommend>
-        <StText>팔로우</StText>
-      </StRecommendBox>
-
-      <StRecommendBox>
-        <StRecommend>
-          <ProfileContainer>
-            <img src={defaultImg} alt='프로필 사진' />
-          </ProfileContainer>
-          <StText black>yeongwoo</StText>
-        </StRecommend>
-        <StText>팔로우</StText>
-      </StRecommendBox>
+      {data.map((member) => (
+        <Member key={member.id} memberName={member.name} />
+      ))}
     </StRecommendMember>
   );
 };
@@ -80,19 +70,6 @@ const StMyName = styled.div`
   display: flex;
 `;
 
-const StRecommendBox = styled.div`
-  margin-top: 20px;
-  display: flex;
-  line-height: 30px;
-  text-align: center;
-  justify-content: space-between;
-`;
-const StRecommend = styled.div`
-  display: flex;
-  line-height: 30px;
-  text-align: center;
-`;
-
 const StText = styled.div`
   color: ${(props) => (props.black ? colors.textBlack : colors.primary)};
   font-weight: ${(props) => (props.fwNormal ? 'normal' : 'bold')};
@@ -103,17 +80,6 @@ const StText = styled.div`
 const MyProfileContainer = styled.div`
   width: 56px;
   height: 56px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin-right: 10px;
-  img {
-    width: 100%;
-  }
-`;
-
-const ProfileContainer = styled.div`
-  width: 32px;
-  height: 32px;
   border-radius: 50%;
   overflow: hidden;
   margin-right: 10px;
