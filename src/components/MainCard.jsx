@@ -53,7 +53,6 @@ const MainCard = ({ article }) => {
   const handleModalClose = () => {
     setIsDetail(false);
     document.body.style.overflow = 'unset';
-    dispatch(__readArticles(id));
   };
 
   // useEffect(() => {
@@ -70,7 +69,7 @@ const MainCard = ({ article }) => {
           <ProfileName>{nickname}</ProfileName>
         </UserProfile>
         <IconContainer>
-          <IconMore onClick={() => handleDetailPost(article.id)} />
+          <IconMore onClick={() => handleDetailPost(id)} />
         </IconContainer>
       </CardHeader>
 
@@ -243,6 +242,7 @@ const LikeNum = styled.div`
 
 const Content = styled.div`
   min-height: 18px;
+  word-break: break-word;
 
   span {
     font-weight: bold;
