@@ -1,15 +1,14 @@
 import FeedLayout from '../Layout/FeedLayout';
 import Nav from '../components/Nav';
 import MainFeed from '../components/MainFeed';
-import styled from 'styled-components';
 import Modal from '../components/Modal';
-import CardDetail from '../components/CardDetail';
 import NewPost from '../components/NewPost';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCookie } from '../shared/Cookie';
 
 const Home = () => {
+  const dispatch = useDispatch();
   const [isCreate, setIsCreate] = useState(false);
 
   const handleAddPost = () => {

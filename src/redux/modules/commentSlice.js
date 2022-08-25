@@ -1,8 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { getCookie, setCookie } from '../../shared/Cookie';
-
-const BASE_URL = 'http://13.209.97.60';
+import { BASE_URL } from '../../shared/api';
 
 // 생성
 export const __createComment = createAsyncThunk(
@@ -18,7 +17,6 @@ export const __createComment = createAsyncThunk(
         },
         data: payload.content,
       });
-      console.log('comment 생성', data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

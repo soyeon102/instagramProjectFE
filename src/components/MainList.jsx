@@ -47,7 +47,7 @@ const MainList = () => {
   //   }
   // }, []);
 
-  console.log('articles@@@@@@', articles);
+  // console.log('articles@@@@@@', articles);
 
   useEffect(() => {
     dispatch(__readArticles(pageNum));

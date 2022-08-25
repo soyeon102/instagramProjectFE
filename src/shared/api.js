@@ -1,1 +1,4 @@
-export const BASE_URL = 'http://13.209.97.60';
+export const BASE_URL = 'https://www.jaejun.shop';
+
+// https://www.jaejun.shop
+// http://13.209.97.60
