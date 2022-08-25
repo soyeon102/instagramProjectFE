@@ -31,13 +31,11 @@ const MyfeedList = () => {
   const handleGetMyfeed = () => {
     setCategory('myarticle');
     dispatch(__readMyArticles());
-    console.log(myArticles);
   };
 
   const handleGetMyLikefeed = () => {
     setCategory('myLikeArticle');
     dispatch(__readMyLikerticles());
-    console.log(myLikeArticles);
   };
 
   const handleMyCardClick = (id) => {

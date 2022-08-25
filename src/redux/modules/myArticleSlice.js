@@ -1,15 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { getCookie } from '../../shared/Cookie';
-
-const BASE_URL = 'http://13.209.97.60';
-
-const config = {
-  headers: {
-    'Content-Type': 'application/json',
-    Authorization: getCookie('ACCESS_TOKEN'),
-  },
-};
+import { BASE_URL } from '../../shared/api';
 
 // 내가 쓴 게시글 조회
 export const __readMyArticles = createAsyncThunk(

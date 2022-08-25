@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { ReactComponent as IconMore } from '../assets/icon/icon-more.svg';
 import { ReactComponent as IconRemove } from '../assets/icon/icon-remove.svg';
 import { ReactComponent as IconComment } from '../assets/icon/icon-comment.svg';
 import { ReactComponent as IconShare } from '../assets/icon/icon-share.svg';
@@ -46,7 +45,6 @@ const CardContents = ({ oneArticle, modalClose }) => {
   const handleAddComment = async () => {
     await dispatch(__createComment({ id: id, content: commentVal }));
     await dispatch(__readOneArticle(id));
-    // await dispatch(__readArticles());
 
     setCommentVal('');
   };
@@ -98,7 +96,14 @@ const CardContents = ({ oneArticle, modalClose }) => {
             <UserPost>
               <Content>
                 <span>{nickname} </span>
-                {content}
+                {content.split('\n').map((line, i) => {
+                  return (
+                    <React.Fragment key={i}>
+                      {line}
+                      <br />
+                    </React.Fragment>
+                  );
+                })}
               </Content>
               <UploadTime>{timeMsg}</UploadTime>
             </UserPost>

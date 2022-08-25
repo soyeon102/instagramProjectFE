@@ -2,8 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { isCompositeComponent } from 'react-dom/test-utils';
 import { getCookie, setCookie } from '../../shared/Cookie';
-
-const BASE_URL = 'http://13.209.97.60';
+import { BASE_URL } from '../../shared/api';
 
 const initialState = {
   articles: [],
@@ -71,7 +70,6 @@ export const __readOneArticle = createAsyncThunk(
           Authorization: getCookie('ACCESS_TOKEN'),
         },
       });
-      console.log('상세 조회 data.data', data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (e) {
       return thunkAPI.rejectWithValue(e.code);
@@ -112,7 +110,6 @@ export const __likeArticle = createAsyncThunk(
           Authorization: getCookie('ACCESS_TOKEN'),
         },
       });
-      console.log('좋아요 data.data', data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -191,8 +188,6 @@ export const articleSlice = createSlice({
         heartCnt: action.payload.heartCnt,
         like: action.payload.like,
       };
-      // state.articles =
-      // console.log('좋아요 action.payload', action.payload);
     },
     [__likeArticle.rejected]: (state, action) => {
       state.isLoading = false;

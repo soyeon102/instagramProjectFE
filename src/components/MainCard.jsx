@@ -39,8 +39,6 @@ const MainCard = ({ article }) => {
 
   const handleLikeButton = () => {
     dispatch(__likeArticle(id));
-
-    console.log('idㄹ와 like 상태!!!!!', like, id);
     // dispatch(__readArticles());
   };
 
